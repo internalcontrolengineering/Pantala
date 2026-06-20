@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>🌴 Gira Mundialista - Planificador de Viaje</title>
+    <title>🌎 Pantala - Planificador de Viaje</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET Y ESTILOS GENERALES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -32,7 +31,7 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
         }
-        /* ===== HEADER con colores patrios ===== */
+        /* HEADER */
         .header {
             text-align: center;
             padding: 20px 10px 20px;
@@ -123,7 +122,7 @@
             transform: translateY(-2px);
         }
 
-        /* ===== BARRA DE ACCIONES ===== */
+        /* ACTIONS */
         .actions {
             display: flex;
             flex-wrap: wrap;
@@ -204,21 +203,12 @@
             background: #a80d1d;
             transform: translateY(-3px);
         }
-        .btn-success {
-            background: #2e7d32;
-            color: white;
-            box-shadow: 0 6px 16px rgba(46, 125, 50, 0.25);
-        }
-        .btn-success:hover {
-            background: #1b5e20;
-            transform: translateY(-3px);
-        }
         .btn-sm {
             padding: 6px 16px;
             font-size: 0.8rem;
         }
 
-        /* ===== TABS ===== */
+        /* TABS */
         .tabs {
             display: flex;
             flex-wrap: nowrap;
@@ -273,7 +263,7 @@
             font-size: 0.7rem;
         }
 
-        /* ===== CONTENIDO DEL DÍA ===== */
+        /* DAY CONTENT */
         .day-content {
             display: none;
             animation: fadeUp 0.35s ease forwards;
@@ -327,7 +317,7 @@
             padding-left: 12px;
         }
 
-        /* ===== TABLA ===== */
+        /* TABLE */
         .table-wrap {
             overflow-x: auto;
             border-radius: 24px;
@@ -435,7 +425,6 @@
             transform: scale(1.1);
         }
 
-        /* ===== BOTÓN AGREGAR FILA ===== */
         .add-row-btn {
             background: rgba(255,255,255,0.6);
             backdrop-filter: blur(4px);
@@ -460,7 +449,6 @@
             box-shadow: 0 8px 20px rgba(0, 99, 65, 0.08);
         }
 
-        /* ===== FOOTER ACTIONS ===== */
         .footer-actions {
             display: flex;
             flex-wrap: wrap;
@@ -471,7 +459,6 @@
             justify-content: flex-end;
         }
 
-        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             bottom: 30px;
@@ -502,7 +489,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 700px) {
             .app { padding: 16px; border-radius: 32px; }
             .header h1 { font-size: 2.2rem; }
@@ -556,7 +542,7 @@
     <!-- CONTENEDOR DE DÍAS -->
     <div id="daysContainer"></div>
 
-    <!-- FOOTER (export/import local + reset) -->
+    <!-- FOOTER -->
     <div class="footer-actions">
         <button class="btn btn-secondary" id="exportBtn">📥 Exportar JSON</button>
         <button class="btn btn-outline" id="importBtn">📤 Importar JSON</button>
@@ -570,16 +556,41 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- ========================================================== -->
-<!-- CARGAR CONFIGURACIÓN DESDE ARCHIVO EXTERNO (generado por el workflow) -->
+<!-- CARGAR CONFIGURACIÓN DESDE ARCHIVO EXTERNO (GENERADO POR GITHUB ACTIONS) -->
 <!-- ========================================================== -->
-<script src="config.js" onerror="console.warn('⚠️ No se pudo cargar config.js');"></script>
+<script>
+    // Esta función se llama desde config.js (si existe)
+    function setTelegramConfig(config) {
+        window.TELEGRAM_CONFIG = config;
+        console.log('✅ Configuración de Telegram cargada.');
+        initApp();
+    }
+
+    // Si config.js no se carga, mostrar advertencia
+    setTimeout(() => {
+        if (!window.TELEGRAM_CONFIG) {
+            console.warn('⚠️ No se encontró config.js. Las funciones de Telegram no estarán disponibles.');
+            const container = document.getElementById('toastContainer');
+            const msg = document.createElement('div');
+            msg.className = 'toast error';
+            msg.textContent = '⚠️ Configuración de Telegram no cargada. Los respaldos no funcionarán.';
+            container.appendChild(msg);
+            setTimeout(() => msg.remove(), 5000);
+            // Deshabilitar botones de Telegram
+            document.getElementById('backupBtn').disabled = true;
+            document.getElementById('importFromTelegramBtn').disabled = true;
+            // Inicializar app de todas formas (sin Telegram)
+            initApp();
+        }
+    }, 1500);
+</script>
 
 <!-- ========================================================== -->
-<!-- CÓDIGO PRINCIPAL DE LA APP (sin token)                    -->
+<!-- TU CÓDIGO PRINCIPAL -->
 <!-- ========================================================== -->
 <script>
     // ================================================================
-    // 1. DATOS POR DEFECTO
+    // 1. DATOS POR DEFECTO (COMPLETOS)
     // ================================================================
     const DEFAULT_DATA = {
         titulo: "⚽ Gira Mundialista",
@@ -718,6 +729,7 @@
         daysContainer.innerHTML = '';
 
         viajeData.dias.forEach((dia, index) => {
+            // TAB
             const tabBtn = document.createElement('button');
             tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
             const num = index + 1;
@@ -726,6 +738,7 @@
             tabBtn.addEventListener('click', () => openTab(dia.id));
             tabsContainer.appendChild(tabBtn);
 
+            // CONTENIDO
             const contentDiv = document.createElement('div');
             contentDiv.className = `day-content ${index === 0 ? 'active' : ''}`;
             contentDiv.id = `content-${dia.id}`;
@@ -996,7 +1009,7 @@
     }
 
     // ================================================================
-    // 9. FUNCIONES DE TELEGRAM (usan TELEGRAM_CONFIG)
+    // 9. FUNCIONES DE TELEGRAM (usando window.TELEGRAM_CONFIG)
     // ================================================================
     async function backupToTelegram() {
         if (!window.TELEGRAM_CONFIG) {
@@ -1032,7 +1045,6 @@
         }
         try {
             showToast('⏳ Buscando archivo JSON en Telegram...', 'info');
-
             const updatesRes = await fetch(`https://api.telegram.org/bot${window.TELEGRAM_CONFIG.token}/getUpdates`);
             const updatesData = await updatesRes.json();
             if (!updatesData.ok) throw new Error('No se pudo obtener mensajes del bot');
@@ -1047,7 +1059,6 @@
                     }
                 }
             }
-
             if (!lastDoc) {
                 showToast('❌ No se encontró ningún archivo .json. Envía uno primero.', 'error');
                 return;
@@ -1058,10 +1069,8 @@
             if (!fileData.ok) throw new Error('No se pudo obtener el archivo');
 
             const downloadUrl = `https://api.telegram.org/file/bot${window.TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
-
             const jsonRes = await fetch(downloadUrl);
             const imported = await jsonRes.json();
-
             if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
 
             viajeData = imported;
@@ -1091,22 +1100,39 @@
     }
 
     // ================================================================
-    // 11. INICIALIZAR LA APP
+    // 11. INICIALIZADOR DE LA APP
     // ================================================================
     function initApp() {
+        // Si ya se inicializó, no repetir
+        if (window._appInitialized) return;
+        window._appInitialized = true;
+
+        // Cargar datos
         if (!loadFromStorage()) {
             viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             saveToStorage();
         }
         render();
 
+        // Edición global
         document.getElementById('mainTitle').addEventListener('dblclick', () => makeGlobalEditable('mainTitle', 'titulo'));
         document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
         document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
 
-        document.getElementById('backupBtn').addEventListener('click', backupToTelegram);
-        document.getElementById('importFromTelegramBtn').addEventListener('click', importFromTelegram);
+        // Botones de Telegram (se habilitan si hay config)
+        const backupBtn = document.getElementById('backupBtn');
+        const syncBtn = document.getElementById('importFromTelegramBtn');
+        if (window.TELEGRAM_CONFIG) {
+            backupBtn.disabled = false;
+            syncBtn.disabled = false;
+            backupBtn.addEventListener('click', backupToTelegram);
+            syncBtn.addEventListener('click', importFromTelegram);
+        } else {
+            backupBtn.disabled = true;
+            syncBtn.disabled = true;
+        }
 
+        // Exportar/Importar local
         document.getElementById('exportBtn').addEventListener('click', () => {
             const blob = new Blob([JSON.stringify(viajeData, null, 2)], { type: 'application/json' });
             const a = document.createElement('a');
@@ -1143,6 +1169,7 @@
             e.target.value = '';
         });
 
+        // Agregar día
         document.getElementById('addDayBtn').addEventListener('click', () => {
             const newId = 'dia' + Date.now();
             const newDay = {
@@ -1160,6 +1187,7 @@
             showToast('📅 Nuevo día agregado', 'success');
         });
 
+        // Restablecer datos
         document.getElementById('resetBtn').addEventListener('click', () => {
             if (confirm('¿Restablecer a los datos originales? Se perderán los cambios.')) {
                 viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
@@ -1172,25 +1200,23 @@
     }
 
     // ================================================================
-    // 12. ARRANQUE
+    // 12. AUTO-INICIO
     // ================================================================
-    // Esperar a que TELEGRAM_CONFIG esté definido (desde config.js)
+    // Si TELEGRAM_CONFIG ya existe (porque config.js se cargó antes), iniciar
     if (window.TELEGRAM_CONFIG) {
         initApp();
     } else {
-        // Si config.js aún no se cargó, escuchar el evento
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.TELEGRAM_CONFIG) {
-                initApp();
-            } else {
-                // Mostrar mensaje de error y deshabilitar funciones
-                console.error('No se pudo cargar la configuración de Telegram.');
-                document.getElementById('backupBtn').disabled = true;
-                document.getElementById('importFromTelegramBtn').disabled = true;
-                showToast('⚠️ Configuración de Telegram no disponible. Revisa el despliegue.', 'error');
-            }
-        });
+        // Si no, esperar a que config.js llame a setTelegramConfig (definido arriba)
+        console.log('⏳ Esperando configuración de Telegram...');
+        // Pero también asegurar que si no llega, igual se inicie la app (sin Telegram)
+        // El setTimeout en el bloque de carga de config.js llama a initApp() después de 1.5s
     }
 </script>
+
+<!-- ========================================================== -->
+<!-- CARGAR CONFIG.JS (generado por GitHub Actions) -->
+<!-- ========================================================== -->
+<script src="config.js" onerror="console.warn('⚠️ No se pudo cargar config.js');"></script>
+
 </body>
 </html>
