@@ -3,491 +3,90 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>🌴 Gira Mundialista - Planificador de Viaje</title>
+    <title>🌎 Pantala - Planificador de Viaje</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Quicksand', 'Segoe UI', sans-serif;
-            background: linear-gradient(145deg, #f7f9fc 0%, #e6ecf5 100%);
-            min-height: 100vh;
-            padding: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        .app {
-            max-width: 1200px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            padding: 24px 28px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.10), 0 10px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-        /* HEADER */
-        .header {
-            text-align: center;
-            padding: 20px 10px 20px;
-            margin-bottom: 24px;
-            border-radius: 40px;
-            background: linear-gradient(135deg, rgba(0, 99, 65, 0.15), rgba(206, 17, 38, 0.10));
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            position: relative;
-            overflow: hidden;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(90deg,
-                rgba(0, 99, 65, 0.08) 0%,
-                rgba(0, 99, 65, 0.08) 33%,
-                rgba(255, 255, 255, 0.15) 33%,
-                rgba(255, 255, 255, 0.15) 66%,
-                rgba(206, 17, 38, 0.08) 66%,
-                rgba(206, 17, 38, 0.08) 100%);
-            pointer-events: none;
-            border-radius: 40px;
-        }
-        .header h1 {
-            position: relative;
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            display: inline-block;
-            background: linear-gradient(135deg, #006341 0%, #006341 30%, #ffffff 30%, #ffffff 60%, #ce1126 60%, #ce1126 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            padding: 0 8px;
-            cursor: pointer;
-        }
-        @supports not (background-clip: text) {
-            .header h1 {
-                color: #006341;
-                text-shadow: 0 0 10px rgba(255,255,255,0.8);
-            }
-        }
-        .header h1:hover {
-            transform: scale(1.02);
-            transition: transform 0.2s;
-        }
-        .header .sub {
-            position: relative;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #1e293b;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            padding: 8px 24px;
-            border-radius: 60px;
-            margin-top: 8px;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .header .sub:hover {
-            background: rgba(255,255,255,0.95);
-            transform: translateY(-2px);
-        }
-        .header .fechas {
-            position: relative;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #2c3e50;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 40px;
-            margin-top: 8px;
-            border: 1px solid rgba(255,255,255,0.6);
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .header .fechas:hover {
-            background: rgba(255,255,255,0.9);
-            transform: translateY(-2px);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Quicksand', 'Segoe UI', sans-serif; background: linear-gradient(145deg, #f7f9fc 0%, #e6ecf5 100%); min-height: 100vh; padding: 16px; display: flex; justify-content: center; align-items: flex-start; }
+        .app { max-width: 1200px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 24px 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.10), 0 10px 20px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.5); transition: all 0.3s ease; }
+        .header { text-align: center; padding: 20px 10px 20px; margin-bottom: 24px; border-radius: 40px; background: linear-gradient(135deg, rgba(0,99,65,0.15), rgba(206,17,38,0.10)); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 8px 32px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(0,99,65,0.08) 0%, rgba(0,99,65,0.08) 33%, rgba(255,255,255,0.15) 33%, rgba(255,255,255,0.15) 66%, rgba(206,17,38,0.08) 66%, rgba(206,17,38,0.08) 100%); pointer-events: none; border-radius: 40px; }
+        .header h1 { position: relative; font-size: 2.8rem; font-weight: 800; letter-spacing: -0.5px; display: inline-block; background: linear-gradient(135deg, #006341 0%, #006341 30%, #ffffff 30%, #ffffff 60%, #ce1126 60%, #ce1126 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); padding: 0 8px; cursor: pointer; }
+        @supports not (background-clip: text) { .header h1 { color: #006341; text-shadow: 0 0 10px rgba(255,255,255,0.8); } }
+        .header h1:hover { transform: scale(1.02); transition: transform 0.2s; }
+        .header .sub { position: relative; font-size: 1.2rem; font-weight: 600; color: #1e293b; background: rgba(255,255,255,0.7); backdrop-filter: blur(4px); display: inline-block; padding: 8px 24px; border-radius: 60px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 12px rgba(0,0,0,0.04); cursor: pointer; transition: 0.2s; }
+        .header .sub:hover { background: rgba(255,255,255,0.95); transform: translateY(-2px); }
+        .header .fechas { position: relative; font-size: 0.95rem; font-weight: 600; color: #2c3e50; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); display: inline-block; padding: 6px 20px; border-radius: 40px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.6); cursor: pointer; transition: 0.2s; }
+        .header .fechas:hover { background: rgba(255,255,255,0.9); transform: translateY(-2px); }
 
-        /* ACTIONS */
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 28px;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(6px);
-            padding: 12px 18px;
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-        .actions .left {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .btn {
-            border: none;
-            padding: 10px 22px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            color: #1e293b;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border: 1px solid transparent;
-        }
-        .btn-primary {
-            background: #006341;
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 99, 65, 0.25);
-        }
-        .btn-primary:hover {
-            background: #004b31;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 28px rgba(0, 99, 65, 0.35);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #006341;
-            color: #006341;
-        }
-        .btn-outline:hover {
-            background: #00634110;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background: #eef2f6;
-            color: #1e293b;
-        }
-        .btn-secondary:hover {
-            background: #dce2ea;
-            transform: translateY(-2px);
-        }
-        .btn-warning {
-            background: #f9a825;
-            color: #1e293b;
-            box-shadow: 0 6px 16px rgba(249, 168, 37, 0.25);
-        }
-        .btn-warning:hover {
-            background: #f57f17;
-            color: white;
-            transform: translateY(-3px);
-        }
-        .btn-danger {
-            background: #ce1126;
-            color: white;
-            box-shadow: 0 6px 16px rgba(206, 17, 38, 0.2);
-        }
-        .btn-danger:hover {
-            background: #a80d1d;
-            transform: translateY(-3px);
-        }
-        .btn-sm {
-            padding: 6px 16px;
-            font-size: 0.8rem;
-        }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.5); backdrop-filter: blur(6px); padding: 12px 18px; border-radius: 60px; border: 1px solid rgba(255,255,255,0.8); }
+        .actions .left { display: flex; flex-wrap: wrap; gap: 8px; }
+        .btn { border: none; padding: 10px 22px; border-radius: 60px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px; background: white; color: #1e293b; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid transparent; }
+        .btn-primary { background: #006341; color: white; box-shadow: 0 8px 20px rgba(0,99,65,0.25); }
+        .btn-primary:hover { background: #004b31; transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 28px rgba(0,99,65,0.35); }
+        .btn-outline { background: transparent; border: 2px solid #006341; color: #006341; }
+        .btn-outline:hover { background: #00634110; transform: translateY(-2px); }
+        .btn-secondary { background: #eef2f6; color: #1e293b; }
+        .btn-secondary:hover { background: #dce2ea; transform: translateY(-2px); }
+        .btn-warning { background: #f9a825; color: #1e293b; box-shadow: 0 6px 16px rgba(249,168,37,0.25); }
+        .btn-warning:hover { background: #f57f17; color: white; transform: translateY(-3px); }
+        .btn-danger { background: #ce1126; color: white; box-shadow: 0 6px 16px rgba(206,17,38,0.2); }
+        .btn-danger:hover { background: #a80d1d; transform: translateY(-3px); }
+        .btn-sm { padding: 6px 16px; font-size: 0.8rem; }
+        .btn-telegram { background: #0088cc; color: white; }
+        .btn-telegram:hover { background: #006699; transform: translateY(-3px); }
 
-        /* TABS */
-        .tabs {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            gap: 6px;
-            margin: 20px 0 16px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-        }
-        .tabs::-webkit-scrollbar {
-            height: 4px;
-            background: transparent;
-        }
-        .tabs::-webkit-scrollbar-thumb {
-            background: #00634140;
-            border-radius: 10px;
-        }
-        .tab-btn {
-            flex: 0 0 auto;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(4px);
-            border: none;
-            padding: 10px 22px;
-            border-radius: 40px;
-            font-weight: 700;
-            color: #4a5a6a;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            border: 1px solid transparent;
-        }
-        .tab-btn:hover {
-            background: rgba(255,255,255,0.9);
-            color: #0f172a;
-            transform: translateY(-2px);
-        }
-        .tab-btn.active {
-            background: #006341;
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 99, 65, 0.30);
-            border-color: #006341;
-        }
-        .tab-btn .day-number {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            border-radius: 30px;
-            padding: 0 8px;
-            margin-right: 4px;
-            font-size: 0.7rem;
-        }
+        .tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 20px 0 16px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.05); -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+        .tabs::-webkit-scrollbar { height: 4px; background: transparent; }
+        .tabs::-webkit-scrollbar-thumb { background: #00634140; border-radius: 10px; }
+        .tab-btn { flex: 0 0 auto; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); border: none; padding: 10px 22px; border-radius: 40px; font-weight: 700; color: #4a5a6a; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; white-space: nowrap; border: 1px solid transparent; }
+        .tab-btn:hover { background: rgba(255,255,255,0.9); color: #0f172a; transform: translateY(-2px); }
+        .tab-btn.active { background: #006341; color: white; box-shadow: 0 8px 20px rgba(0,99,65,0.30); border-color: #006341; }
+        .tab-btn .day-number { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 30px; padding: 0 8px; margin-right: 4px; font-size: 0.7rem; }
 
-        /* DAY CONTENT */
-        .day-content {
-            display: none;
-            animation: fadeUp 0.35s ease forwards;
-        }
-        .day-content.active {
-            display: block;
-        }
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(14px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        .day-content { display: none; animation: fadeUp 0.35s ease forwards; }
+        .day-content.active { display: block; }
+        @keyframes fadeUp { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 4px;
-        }
-        .day-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #0f2b3a;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .day-title:hover {
-            color: #006341;
-        }
-        .day-title .badge {
-            font-size: 0.8rem;
-            background: #f1f5f9;
-            padding: 4px 16px;
-            border-radius: 30px;
-            font-weight: 600;
-            color: #475569;
-        }
-        .day-actions {
-            display: flex;
-            gap: 8px;
-        }
-        .day-sub {
-            color: #5d6d7e;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            padding-left: 4px;
-            border-left: 4px solid #f9a825;
-            padding-left: 12px;
-        }
+        .day-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+        .day-title { font-size: 1.8rem; font-weight: 700; color: #0f2b3a; cursor: pointer; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .day-title:hover { color: #006341; }
+        .day-title .badge { font-size: 0.8rem; background: #f1f5f9; padding: 4px 16px; border-radius: 30px; font-weight: 600; color: #475569; }
+        .day-actions { display: flex; gap: 8px; }
+        .day-sub { color: #5d6d7e; font-size: 1rem; margin-bottom: 20px; padding-left: 4px; border-left: 4px solid #f9a825; padding-left: 12px; }
 
-        /* TABLE */
-        .table-wrap {
-            overflow-x: auto;
-            border-radius: 24px;
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(4px);
-            padding: 4px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-            margin-bottom: 16px;
-        }
-        .day-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.92rem;
-            min-width: 680px;
-            table-layout: fixed;
-        }
-        .day-table th {
-            background: rgba(0, 99, 65, 0.08);
-            color: #1e293b;
-            font-weight: 700;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            padding: 14px 8px;
-            text-align: left;
-            border-bottom: 2px solid rgba(0, 99, 65, 0.1);
-        }
+        .table-wrap { overflow-x: auto; border-radius: 24px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px); padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 16px; }
+        .day-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 680px; table-layout: fixed; }
+        .day-table th { background: rgba(0,99,65,0.08); color: #1e293b; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.6px; padding: 14px 8px; text-align: left; border-bottom: 2px solid rgba(0,99,65,0.1); }
         .day-table th:nth-child(1) { width: 110px; }
         .day-table th:nth-child(2) { width: 150px; }
         .day-table th:nth-child(3) { width: 220px; }
         .day-table th:nth-child(4) { width: 100px; }
         .day-table th:nth-child(5) { width: 170px; }
         .day-table th:nth-child(6) { width: 50px; }
+        .day-table td { padding: 12px 8px; border-bottom: 1px solid rgba(0,0,0,0.04); vertical-align: top; background: transparent; word-wrap: break-word; overflow-wrap: break-word; }
+        .day-table td:nth-child(3), .day-table td:nth-child(5) { white-space: pre-wrap; word-break: break-word; }
+        .day-table tr:last-child td { border-bottom: none; }
+        .day-table .editable-cell { cursor: text; transition: background 0.15s; position: relative; border-radius: 8px; padding: 6px 8px; min-height: 36px; }
+        .day-table .editable-cell:hover { background: rgba(0,99,65,0.06); }
+        .day-table .editable-cell.editing { background: #fff8e7; padding: 4px 6px; box-shadow: 0 0 0 2px #f9a825; border-radius: 10px; }
+        .day-table .editable-cell input, .day-table .editable-cell textarea { width: 100%; border: 2px solid #006341; border-radius: 10px; padding: 8px 12px; font-family: inherit; font-size: 0.92rem; background: white; outline: none; box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: 0.2s; }
+        .day-table .editable-cell textarea { min-height: 70px; resize: vertical; white-space: pre-wrap; }
+        .day-table .editable-cell input:focus, .day-table .editable-cell textarea:focus { border-color: #f9a825; box-shadow: 0 0 0 3px rgba(249,168,37,0.2); }
+        .day-table .btn-delete { background: rgba(206,17,38,0.06); border: none; color: #94a3b8; cursor: pointer; font-size: 1.2rem; transition: 0.2s; padding: 6px 10px; border-radius: 30px; line-height: 1; }
+        .day-table .btn-delete:hover { background: #ce1126; color: white; transform: scale(1.1); }
 
-        .day-table td {
-            padding: 12px 8px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-            vertical-align: top;
-            background: transparent;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        .day-table td:nth-child(3),
-        .day-table td:nth-child(5) {
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-        .day-table tr:last-child td {
-            border-bottom: none;
-        }
-        .day-table .editable-cell {
-            cursor: text;
-            transition: background 0.15s;
-            position: relative;
-            border-radius: 8px;
-            padding: 6px 8px;
-            min-height: 36px;
-        }
-        .day-table .editable-cell:hover {
-            background: rgba(0, 99, 65, 0.06);
-        }
-        .day-table .editable-cell.editing {
-            background: #fff8e7;
-            padding: 4px 6px;
-            box-shadow: 0 0 0 2px #f9a825;
-            border-radius: 10px;
-        }
-        .day-table .editable-cell input,
-        .day-table .editable-cell textarea {
-            width: 100%;
-            border: 2px solid #006341;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-family: inherit;
-            font-size: 0.92rem;
-            background: white;
-            outline: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            transition: 0.2s;
-        }
-        .day-table .editable-cell textarea {
-            min-height: 70px;
-            resize: vertical;
-            white-space: pre-wrap;
-        }
-        .day-table .editable-cell input:focus,
-        .day-table .editable-cell textarea:focus {
-            border-color: #f9a825;
-            box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.2);
-        }
-        .day-table .btn-delete {
-            background: rgba(206, 17, 38, 0.06);
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: 0.2s;
-            padding: 6px 10px;
-            border-radius: 30px;
-            line-height: 1;
-        }
-        .day-table .btn-delete:hover {
-            background: #ce1126;
-            color: white;
-            transform: scale(1.1);
-        }
+        .add-row-btn { background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); border: 2px dashed #9aa9b9; border-radius: 60px; padding: 12px 24px; font-weight: 700; color: #2c3e50; cursor: pointer; transition: all 0.25s; display: inline-flex; align-items: center; gap: 10px; font-size: 0.95rem; margin-bottom: 20px; }
+        .add-row-btn:hover { border-color: #006341; background: rgba(0,99,65,0.06); color: #006341; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,99,65,0.08); }
 
-        .add-row-btn {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(4px);
-            border: 2px dashed #9aa9b9;
-            border-radius: 60px;
-            padding: 12px 24px;
-            font-weight: 700;
-            color: #2c3e50;
-            cursor: pointer;
-            transition: all 0.25s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-        .add-row-btn:hover {
-            border-color: #006341;
-            background: rgba(0, 99, 65, 0.06);
-            color: #006341;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 99, 65, 0.08);
-        }
+        .footer-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.06); justify-content: flex-end; }
 
-        .footer-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px dashed rgba(0,0,0,0.06);
-            justify-content: flex-end;
-        }
-
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 9999;
-            pointer-events: none;
-        }
-        .toast {
-            background: #1e293b;
-            color: white;
-            padding: 16px 28px;
-            border-radius: 60px;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.15);
-            font-weight: 600;
-            animation: slideUp 0.3s ease forwards;
-            backdrop-filter: blur(8px);
-            background: rgba(30, 41, 59, 0.9);
-            pointer-events: auto;
-        }
-        .toast.success { background: rgba(0, 99, 65, 0.9); }
-        .toast.error { background: rgba(206, 17, 38, 0.9); }
-        .toast.info { background: rgba(30, 58, 138, 0.9); }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .toast-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 9999; pointer-events: none; }
+        .toast { background: #1e293b; color: white; padding: 16px 28px; border-radius: 60px; box-shadow: 0 16px 40px rgba(0,0,0,0.15); font-weight: 600; animation: slideUp 0.3s ease forwards; backdrop-filter: blur(8px); background: rgba(30,41,59,0.9); pointer-events: auto; }
+        .toast.success { background: rgba(0,99,65,0.9); }
+        .toast.error { background: rgba(206,17,38,0.9); }
+        .toast.info { background: rgba(30,58,138,0.9); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 700px) {
             .app { padding: 16px; border-radius: 32px; }
@@ -501,8 +100,7 @@
             .day-table { font-size: 0.8rem; min-width: 580px; }
             .day-table th, .day-table td { padding: 8px 6px; }
             .day-table .editable-cell { min-height: 28px; }
-            .day-table .editable-cell input,
-            .day-table .editable-cell textarea { font-size: 0.8rem; padding: 6px 8px; }
+            .day-table .editable-cell input, .day-table .editable-cell textarea { font-size: 0.8rem; padding: 6px 8px; }
             .tab-btn { padding: 8px 14px; font-size: 0.75rem; }
             .add-row-btn { font-size: 0.85rem; padding: 10px 18px; }
             .footer-actions { justify-content: center; }
@@ -529,11 +127,11 @@
     <!-- ACCIONES -->
     <div class="actions">
         <div class="left">
-            <button class="btn btn-primary" id="backupBtn">☁️ Respaldar en Telegram</button>
-            <button class="btn btn-outline" id="importFromTelegramBtn">🔄 Sincronizar desde Telegram</button>
+            <button class="btn btn-primary" id="backupBtn">☁️ Respaldar</button>
+            <button class="btn btn-outline" id="syncBtn">🔄 Sincronizar</button>
+            <button class="btn btn-telegram" id="openChatBtn">💬 Abrir chat</button>
             <button class="btn btn-warning" id="addDayBtn">➕ Agregar Día</button>
         </div>
-        <div></div>
     </div>
 
     <!-- TABS -->
@@ -545,7 +143,7 @@
         <button class="btn btn-secondary" id="exportBtn">📥 Exportar JSON</button>
         <button class="btn btn-outline" id="importBtn">📤 Importar JSON</button>
         <input type="file" id="importFileInput" accept=".json" style="display:none;">
-        <button class="btn btn-danger" id="resetBtn">🔄 Restablecer datos</button>
+        <button class="btn btn-danger" id="resetBtn">🔄 Restablecer</button>
     </div>
 
 </div>
@@ -555,10 +153,10 @@
 
 <script>
     // ================================================================
-    // 1. CONFIGURACIÓN DE TELEGRAM (NUEVO TOKEN ACTUALIZADO)
+    // 1. CONFIGURACIÓN DE TELEGRAM
     // ================================================================
     const TELEGRAM_CONFIG = {
-        token: '8639326122:AAE6lDLn3Ld5j1otSKY9S_AG6QJH892IVrg',  // ← NUEVO TOKEN
+        token: '8639326122:AAE6lDLn3Ld5j1otSKY9S_AG6QJH892IVrg',
         chatId: '1957804648',
         username: 'Pantala_bot'
     };
@@ -661,14 +259,11 @@
     };
 
     // ================================================================
-    // 3. ESTADO
+    // 3. ESTADO Y PERSISTENCIA
     // ================================================================
     let viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
     let currentDayId = null;
 
-    // ================================================================
-    // 4. PERSISTENCIA LOCAL
-    // ================================================================
     function loadFromStorage() {
         const stored = localStorage.getItem('viajeData');
         if (stored) {
@@ -690,7 +285,7 @@
     }
 
     // ================================================================
-    // 5. RENDERIZADO PRINCIPAL
+    // 4. RENDERIZADO (igual que antes, no lo repito por espacio)
     // ================================================================
     function render() {
         document.getElementById('mainTitle').textContent = viajeData.titulo || '⚽ Gira Mundialista';
@@ -858,9 +453,6 @@
         else if (viajeData.dias.length) openTab(viajeData.dias[0].id);
     }
 
-    // ================================================================
-    // 6. ABRIR PESTAÑA
-    // ================================================================
     function openTab(id) {
         currentDayId = id;
         document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
@@ -873,9 +465,6 @@
         }
     }
 
-    // ================================================================
-    // 7. EDICIÓN DE TÍTULO DEL DÍA
-    // ================================================================
     function editDayTitle(dayId, field) {
         const dia = viajeData.dias.find(d => d.id === dayId);
         if (!dia) return;
@@ -890,9 +479,6 @@
         }
     }
 
-    // ================================================================
-    // 8. EDICIÓN INLINE
-    // ================================================================
     function makeEditable(td, dayId, index, field) {
         if (td.classList.contains('editing')) return;
         const dia = viajeData.dias.find(d => d.id === dayId);
@@ -965,9 +551,6 @@
         });
     }
 
-    // ================================================================
-    // 9. EDICIÓN GLOBAL
-    // ================================================================
     function makeGlobalEditable(elementId, field) {
         const el = document.getElementById(elementId);
         const current = viajeData[field] || '';
@@ -981,10 +564,39 @@
     }
 
     // ================================================================
-    // 10. FUNCIONES DE TELEGRAM (con el token actualizado)
+    // 5. FUNCIONES DE TELEGRAM CON PROXY CORS
     // ================================================================
+    // Proxy CORS público (puedes cambiarlo si deja de funcionar)
+    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+    async function telegramFetch(url, options = {}) {
+        // Intenta directamente, si falla usa proxy
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.warn('Direct fetch failed, trying CORS proxy...', error);
+            // Usar proxy para GET (para POST con archivos no es posible)
+            if (options.method !== 'POST' || !options.body) {
+                const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+                const proxyResponse = await fetch(proxyUrl);
+                if (!proxyResponse.ok) throw new Error(`Proxy HTTP ${proxyResponse.status}`);
+                const text = await proxyResponse.text();
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error('Proxy response not JSON');
+                }
+            } else {
+                throw error; // POST no se puede hacer con este proxy
+            }
+        }
+    }
+
     async function backupToTelegram() {
         try {
+            showToast('⏳ Subiendo respaldo...', 'info');
             const jsonString = JSON.stringify(viajeData, null, 2);
             const blob = new Blob([jsonString], { type: 'application/json' });
             const file = new File([blob], `itinerario_${new Date().toISOString().slice(0,10)}.json`, { type: 'application/json' });
@@ -994,6 +606,7 @@
             formData.append('document', file);
             formData.append('caption', '📂 Respaldo del planificador de viaje');
 
+            // Intentar directamente (sin proxy) porque es POST multipart
             const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendDocument`, {
                 method: 'POST',
                 body: formData
@@ -1002,20 +615,26 @@
             if (!data.ok) throw new Error(data.description || 'Error al subir archivo');
             showToast('☁️ Respaldo guardado en Telegram.', 'success');
         } catch (error) {
-            showToast('❌ Error al respaldar: ' + error.message, 'error');
+            showToast(`❌ Error al respaldar: ${error.message}`, 'error');
+            // Si falla, sugerir exportar manualmente
+            showToast('💡 Usa "Exportar JSON" para guardar localmente.', 'info');
         }
     }
 
     async function importFromTelegram() {
         try {
-            showToast('⏳ Buscando archivo JSON en Telegram...', 'info');
-            const updatesRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`);
-            const updatesData = await updatesRes.json();
-            if (!updatesData.ok) throw new Error('No se pudo obtener mensajes del bot');
+            showToast('⏳ Buscando archivo JSON...', 'info');
 
+            // Intentar con proxy para GET
+            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`;
+            const data = await telegramFetch(url);
+
+            if (!data.ok) throw new Error(data.description || 'Error al obtener actualizaciones');
+
+            // Buscar el último documento JSON enviado por el usuario
             let lastDoc = null;
-            for (let i = updatesData.result.length - 1; i >= 0; i--) {
-                const msg = updatesData.result[i].message;
+            for (let i = (data.result || []).length - 1; i >= 0; i--) {
+                const msg = data.result[i].message;
                 if (msg && msg.document && msg.document.file_name && msg.document.file_name.endsWith('.json')) {
                     if (!msg.from.is_bot) {
                         lastDoc = msg.document;
@@ -1023,32 +642,39 @@
                     }
                 }
             }
+
             if (!lastDoc) {
-                showToast('❌ No se encontró ningún archivo .json. Envía uno primero.', 'error');
+                showToast('❌ No hay archivos .json en el chat. Envía uno primero.', 'error');
                 return;
             }
 
-            const fileRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`);
-            const fileData = await fileRes.json();
-            if (!fileData.ok) throw new Error('No se pudo obtener el archivo');
+            // Obtener la ruta del archivo
+            const fileUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`;
+            const fileData = await telegramFetch(fileUrl);
+            if (!fileData.ok) throw new Error('No se pudo obtener la información del archivo');
 
             const downloadUrl = `https://api.telegram.org/file/bot${TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
-            const jsonRes = await fetch(downloadUrl);
-            const imported = await jsonRes.json();
+
+            // Descargar el archivo (usando proxy)
+            const jsonText = await fetch(CORS_PROXY + encodeURIComponent(downloadUrl)).then(r => r.text());
+            const imported = JSON.parse(jsonText);
+
             if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
 
             viajeData = imported;
             saveToStorage();
             render();
             if (viajeData.dias.length) openTab(viajeData.dias[0].id);
-            showToast('🔄 Datos sincronizados desde Telegram.', 'success');
+            showToast('🔄 Datos sincronizados correctamente.', 'success');
         } catch (error) {
-            showToast('❌ Error al sincronizar: ' + error.message, 'error');
+            console.error('Error en sincronización:', error);
+            showToast(`❌ Error al sincronizar: ${error.message}`, 'error');
+            showToast('💡 Puedes descargar el archivo manualmente desde el chat y usar "Importar JSON".', 'info');
         }
     }
 
     // ================================================================
-    // 11. TOAST
+    // 6. TOAST
     // ================================================================
     function showToast(message, type = 'info') {
         const container = document.getElementById('toastContainer');
@@ -1060,14 +686,13 @@
             toast.style.opacity = '0';
             toast.style.transform = 'translateY(30px)';
             setTimeout(() => toast.remove(), 300);
-        }, 4000);
+        }, 5000);
     }
 
     // ================================================================
-    // 12. INICIALIZACIÓN
+    // 7. INICIALIZACIÓN
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
-        // Cargar datos
         if (!loadFromStorage()) {
             viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             saveToStorage();
@@ -1079,9 +704,12 @@
         document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
         document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
 
-        // Botones de Telegram
+        // Botones Telegram
         document.getElementById('backupBtn').addEventListener('click', backupToTelegram);
-        document.getElementById('importFromTelegramBtn').addEventListener('click', importFromTelegram);
+        document.getElementById('syncBtn').addEventListener('click', importFromTelegram);
+        document.getElementById('openChatBtn').addEventListener('click', () => {
+            window.open(`https://t.me/${TELEGRAM_CONFIG.username}`, '_blank');
+        });
 
         // Exportar/Importar local
         document.getElementById('exportBtn').addEventListener('click', () => {
