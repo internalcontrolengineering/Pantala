@@ -143,31 +143,11 @@
             cursor: pointer;
             color: #94a3b8;
         }
-        .modal textarea {
-            width: 100%;
-            min-height: 150px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
-            resize: vertical;
-        }
+        .modal textarea { width: 100%; min-height: 150px; font-family: monospace; font-size: 0.85rem; padding: 12px; border: 1px solid #cbd5e1; border-radius: 12px; resize: vertical; }
         .modal .info-text { color: #5d6d7e; margin-bottom: 12px; }
         .modal .actions-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .modal .btn { margin-top: 0; }
-        .modal .json-preview {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            font-size: 0.75rem;
-            color: #475569;
-            border: 1px solid #e9edf2;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
+        .modal .json-preview { background: #f8fafc; border-radius: 12px; padding: 8px; max-height: 200px; overflow-y: auto; font-size: 0.75rem; color: #475569; border: 1px solid #e9edf2; white-space: pre-wrap; word-break: break-all; }
     </style>
 </head>
 <body>
@@ -228,18 +208,101 @@
     };
 
     // ================================================================
-    // DATOS POR DEFECTO
+    // DATOS POR DEFECTO (ITINERARIO COMPLETO)
     // ================================================================
     const DEFAULT_DATA = {
         titulo: "⚽ Gira Mundialista",
         subtitulo: "PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec",
         fechas: "21 – 28 de Junio, 2026",
         dias: [
-            // ... (los 8 días completos, no los repito por espacio)
-            // Asegúrate de tener los días completos aquí
+            {
+                id: "domingo21",
+                nombre: "DOMINGO 21 DE JUNIO",
+                subtitulo: "ARRIBO A ZACATLÁN",
+                actividades: [
+                    { horario: "Mañana", actividad: "Traslado MID a CDMX", detalles: "Salida 6:01 am y arribo 8:00 am (Aeromexico Terminal 2)", costo: "3252", notas: "Light (Solo Mochila)" },
+                    { horario: "Mañana", actividad: "Traslado de Aeropuerto (T2) a TAPO", detalles: "Salida 8:00 am arribo a las 9:00 am (Uber)", costo: "200", notas: "Uber" },
+                    { horario: "Mañana", actividad: "Traslado de TAPO a Terminal Zacatlan", detalles: "Salida de 9:30 am a 12:30 pm (ATAH)", costo: "708", notas: "Autobús (ATAH)" },
+                    { horario: "Tarde", actividad: "Llegada a Zacatlán (Check-in)", detalles: "AirB&B", costo: "2368", notas: "3 Noches: https://www.airbnb.mx/rooms/1433023532441976725" },
+                    { horario: "Tarde", actividad: "Estadía en Zacatlán de las Manzanas", detalles: "Parroquia, Callejón del Hueso, Museo del Reloj, Mirador de Cristal, Mercadito, Café, Museo del Vino, Letras, Helados, Corredor Artesanal", costo: "", notas: "Recorrido libre" }
+                ]
+            },
+            {
+                id: "lunes22",
+                nombre: "LUNES 22 DE JUNIO",
+                subtitulo: "VITROMURALES Y CASCADAS",
+                actividades: [
+                    { horario: "07:00 am", actividad: "Mirador de Cristal Principal", detalles: "Visita temprano para evitar aglomeraciones.", costo: "", notas: "Fotos sin gente" },
+                    { horario: "09:00 am", actividad: "Desayuno en el Mercadito", detalles: "Gastronomía local.", costo: "", notas: "" },
+                    { horario: "Resto del día", actividad: "Paseo por el Centro", detalles: "Callejón del Hueso (Vitromurales), Corredor Artesanal, Estatua de Pedro Escobedo.", costo: "", notas: "" },
+                    { horario: "Resto del día", actividad: "Cascadas de Quetzalapan y Tulimán", detalles: "Aventura: puente colgante y senderismo.", costo: "", notas: "" },
+                    { horario: "Noche", actividad: "Tour Iluminado Nocturno", detalles: "Nuevo mirador Brizas", costo: "400", notas: "Experiencia nocturna" }
+                ]
+            },
+            {
+                id: "martes23",
+                nombre: "MARTES 23 DE JUNIO",
+                subtitulo: "NATURALEZA Y SABORES",
+                actividades: [
+                    { horario: "Mañana", actividad: "Recorrido en Matliwaca", detalles: "Ruta de los duendes, Hadas, Trols, Manantial y Mirador de la mano.", costo: "", notas: "" },
+                    { horario: "Tarde", actividad: "Degustación de Café y Museo del Vino", detalles: "Regreso al centro para actividades gastronómicas.", costo: "", notas: "" },
+                    { horario: "Tarde", actividad: "Tarde libre", detalles: "Espacio para descansar y pasear.", costo: "", notas: "" }
+                ]
+            },
+            {
+                id: "miercoles24",
+                nombre: "MIÉRCOLES 24 DE JUNIO",
+                subtitulo: "ZACATLÁN ➔ CDMX (TURISMO OBLIGATORIO)",
+                actividades: [
+                    { horario: "Mañana", actividad: "Traslado Zacatlan a TAPO", detalles: "Salida de 6:45 am a 9:45 pm (ATAH)", costo: "708", notas: "Autobús (ATAH)" },
+                    { horario: "10:00 a. m.", actividad: "Llegada a CDMX", detalles: "Check-in 3:00 pm", costo: "1980", notas: "Hotel Roble: https://share.google/Clnff1pqh7gj6yxmW" },
+                    { horario: "Tarde / Noche", actividad: "Tiempo Libre en CDMX", detalles: "Visita al Zócalo para ver México vs Republica Checa", costo: "", notas: "Fiesta del fútbol" }
+                ]
+            },
+            {
+                id: "jueves25",
+                nombre: "JUEVES 25 DE JUNIO",
+                subtitulo: "CDMX ➔ CUETZALAN (CULTURA Y TRADICIÓN)",
+                actividades: [
+                    { horario: "09:00 am", actividad: "Salida de CDMX hacia Cuetzalan", detalles: "Tiempo estimado: ~4.5 horas.", costo: "", notas: "" },
+                    { horario: "13:30 pm", actividad: "Llegada a Cuetzalan y Almuerzo", detalles: "Instalación y comida típica.", costo: "", notas: "" },
+                    { horario: "Tarde", actividad: "Recorrido por el Centro y Tianguis", detalles: "Parroquia San Francisco, Iglesia de los Jarritos, Panteón de Guadalupe, Voladores.", costo: "", notas: "" }
+                ]
+            },
+            {
+                id: "viernes26",
+                nombre: "VIERNES 26 DE JUNIO",
+                subtitulo: "BOSQUE DE BAMBÚ Y TARDE EN TLATLAUQUITEPEC",
+                actividades: [
+                    { horario: "09:00 am", actividad: "Visita al Bosque de Bambú", detalles: "Exploración de la Cueva Chivostoc.", costo: "", notas: "" },
+                    { horario: "12:00 pm", actividad: "Salida hacia Tlatlauquitepec", detalles: "Traslado ~1h 50min.", costo: "", notas: "" },
+                    { horario: "14:00 pm", actividad: "Llegada y Centro Histórico", detalles: "Ex-convento Franciscano, Parroquia de la Asunción, Letras del pueblo.", costo: "", notas: "" },
+                    { horario: "Noche", actividad: "Cena en el Mercadito", detalles: "Degustación nocturna local.", costo: "", notas: "" }
+                ]
+            },
+            {
+                id: "sabado27",
+                nombre: "SÁBADO 27 DE JUNIO",
+                subtitulo: "AVENTURA Y NOCHE MÁGICA EN LA PRESA",
+                actividades: [
+                    { horario: "08:00 am", actividad: "Casa del Artesano", detalles: "Compras de recuerdos.", costo: "", notas: "" },
+                    { horario: "09:30 am", actividad: "Traslado al Cerro Cabezón", detalles: "Aventura en el Puente Tibetano.", costo: "", notas: "" },
+                    { horario: "13:00 pm", actividad: "Cascada de Puxtla", detalles: "Visita a la cascada y cueva oculta.", costo: "", notas: "" },
+                    { horario: "16:00 pm", actividad: "Presa de la Soledad (Check-in)", detalles: "Llegada a la cabaña, atardecer.", costo: "", notas: "" },
+                    { horario: "20:30 hrs", actividad: "Tour de Avistamiento de Luciérnagas", detalles: "Paseo en lancha nocturno. Noche en cabañas.", costo: "", notas: "Evento Principal" }
+                ]
+            },
+            {
+                id: "domingo28",
+                nombre: "DOMINGO 28 DE JUNIO",
+                subtitulo: "REGRESO SEGURO",
+                actividades: [
+                    { horario: "Mañana", actividad: "Desayuno con vista a la presa", detalles: "Momento de relajación.", costo: "", notas: "" },
+                    { horario: "Mañana", actividad: "Emprender viaje de retorno", detalles: "Regreso a casa seguro y descansado.", costo: "", notas: "" }
+                ]
+            }
         ]
     };
-    // NOTA: Incluye los 8 días completos en DEFAULT_DATA
 
     // ================================================================
     // ESTADO
@@ -271,7 +334,7 @@
     }
 
     // ================================================================
-    // RENDERIZADO (completo)
+    // RENDERIZADO (completo con edición)
     // ================================================================
     function render() {
         console.log('🔄 Renderizando...', viajeData ? viajeData.dias.length + ' días' : 'sin datos');
@@ -574,8 +637,11 @@
             summary += `   ${dia.subtitulo || ''}\n`;
             dia.actividades.forEach(act => {
                 summary += `   • ${act.horario}: ${act.actividad}`;
-                if (act.costo && act.costo !== '0') {
-                    summary += ` ($${parseFloat(act.costo).toLocaleString('es-MX')})`;
+                if (act.costo && act.costo !== '0' && act.costo !== '') {
+                    const num = parseFloat(act.costo);
+                    if (!isNaN(num) && num > 0) {
+                        summary += ` ($${num.toLocaleString('es-MX')})`;
+                    }
                 }
                 summary += `\n`;
             });
@@ -595,23 +661,20 @@
         try {
             showToast('⏳ Preparando respaldo...', 'info');
 
-            // 1. Asegurar timestamp
             viajeData._updatedAt = Date.now();
             saveToStorage();
 
-            // 2. Generar JSON
             const jsonString = JSON.stringify(viajeData, null, 2);
 
-            // 3. Copiar al portapapeles
+            // Copiar al portapapeles
             try {
                 await navigator.clipboard.writeText(jsonString);
                 showToast('📋 JSON copiado al portapapeles.', 'success');
             } catch (clipError) {
                 console.warn('No se pudo copiar al portapapeles:', clipError);
-                // Si falla la copia, aún continuamos con el respaldo
             }
 
-            // 4. Subir archivo JSON a Telegram
+            // Subir archivo JSON a Telegram
             const blob = new Blob([jsonString], { type: 'application/json' });
             const file = new File([blob], `itinerario_${new Date().toISOString().slice(0,10)}.json`, { type: 'application/json' });
 
@@ -629,7 +692,7 @@
 
             showToast('☁️ Archivo JSON enviado a Telegram.', 'success');
 
-            // 5. Generar y enviar resumen como mensaje de texto
+            // Enviar resumen como mensaje de texto
             const summary = generateSummary(viajeData);
             const summaryPayload = {
                 chat_id: TELEGRAM_CONFIG.chatId,
@@ -649,17 +712,16 @@
                 console.warn('No se pudo enviar el resumen:', summaryData);
             }
 
-            // 6. Abrir el modal con el JSON ya cargado (para que el usuario confirme)
+            // Abrir el modal con el JSON precargado
             const modal = document.getElementById('jsonModal');
             const textarea = document.getElementById('manualJsonInput');
             textarea.value = jsonString;
-            // Mostrar preview
             const preview = document.getElementById('jsonPreview');
             preview.textContent = jsonString.substring(0, 500) + (jsonString.length > 500 ? '\n... (truncado)' : '');
             preview.style.display = 'block';
             modal.classList.add('open');
 
-            showToast('✅ Respaldo completado. Revisa el modal para confirmar.', 'success');
+            showToast('✅ Respaldo completado.', 'success');
 
         } catch (error) {
             console.error('Error en respaldo:', error);
@@ -668,40 +730,35 @@
     }
 
     // ================================================================
-    // SINCRONIZAR (usando portapapeles como puente)
+    // SINCRONIZAR (desde el portapapeles)
     // ================================================================
     async function syncFromClipboard() {
         try {
-            // Intentar leer el portapapeles
             const text = await navigator.clipboard.readText();
             if (!text || !text.trim().startsWith('{')) {
                 showToast('📋 El portapapeles no contiene un JSON válido.', 'error');
-                // Abrir modal para pegar manualmente
                 document.getElementById('jsonModal').classList.add('open');
                 return;
             }
 
-            // Validar JSON
             const imported = JSON.parse(text);
             if (!imported.dias || !Array.isArray(imported.dias) || imported.dias.length === 0) {
                 throw new Error('El archivo no tiene el formato esperado (falta "dias").');
             }
 
-            // Comparar fechas (si existe)
             const remoteTime = imported._updatedAt || 0;
             const localTime = viajeData?._updatedAt || 0;
 
             if (remoteTime < localTime) {
-                showToast(`⚠️ Tus datos locales son más recientes (${new Date(localTime).toLocaleString()}). No se sobrescribió.`, 'warning');
+                showToast(`⚠️ Tus datos locales son más recientes. No se sobrescribió.`, 'warning');
                 return;
             }
 
             if (remoteTime === localTime && remoteTime !== 0) {
-                showToast('ℹ️ Los datos están igual de actualizados. No se realizaron cambios.', 'info');
+                showToast('ℹ️ Los datos están igual de actualizados.', 'info');
                 return;
             }
 
-            // Aplicar datos
             viajeData = imported;
             saveToStorage();
             render();
@@ -713,8 +770,27 @@
             console.error('Error en sincronización:', error);
             showToast(`❌ Error: ${error.message}`, 'error');
             document.getElementById('jsonModal').classList.add('open');
-            showToast('💡 Puedes pegar el JSON manualmente en el modal.', 'info');
         }
+    }
+
+    // ================================================================
+    // RECARGAR DATOS
+    // ================================================================
+    function reloadData() {
+        const stored = localStorage.getItem('viajeData');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (parsed && parsed.dias && parsed.dias.length > 0) {
+                    viajeData = parsed;
+                    render();
+                    if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+                    showToast(`✅ Datos recargados (${viajeData.dias.length} días)`, 'success');
+                    return;
+                }
+            } catch (e) { console.error('Error al recargar:', e); }
+        }
+        showToast('❌ No hay datos guardados para recargar.', 'error');
     }
 
     // ================================================================
@@ -724,7 +800,6 @@
         try {
             const text = await navigator.clipboard.readText();
             document.getElementById('manualJsonInput').value = text;
-            // Verificar que sea JSON válido
             try {
                 const parsed = JSON.parse(text);
                 if (parsed.dias) {
@@ -752,9 +827,7 @@
             if (!imported.dias || !Array.isArray(imported.dias) || imported.dias.length === 0) {
                 throw new Error('El archivo no tiene el formato esperado.');
             }
-            console.log('📥 Datos importados manualmente:', imported.dias.length, 'días');
 
-            // Comparar fechas
             const remoteTime = imported._updatedAt || 0;
             const localTime = viajeData?._updatedAt || 0;
 
@@ -788,26 +861,6 @@
     });
 
     // ================================================================
-    // RECARGAR DATOS
-    // ================================================================
-    function reloadData() {
-        const stored = localStorage.getItem('viajeData');
-        if (stored) {
-            try {
-                const parsed = JSON.parse(stored);
-                if (parsed && parsed.dias && parsed.dias.length > 0) {
-                    viajeData = parsed;
-                    render();
-                    if (viajeData.dias.length) openTab(viajeData.dias[0].id);
-                    showToast(`✅ Datos recargados (${viajeData.dias.length} días)`, 'success');
-                    return;
-                }
-            } catch (e) { console.error('Error al recargar:', e); }
-        }
-        showToast('❌ No hay datos guardados para recargar.', 'error');
-    }
-
-    // ================================================================
     // TOAST
     // ================================================================
     function showToast(message, type = 'info') {
@@ -837,7 +890,6 @@
 
         render();
 
-        // Eventos principales
         document.getElementById('mainTitle').addEventListener('dblclick', () => makeGlobalEditable('mainTitle', 'titulo'));
         document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
         document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
@@ -866,7 +918,6 @@
             showToast('📅 Nuevo día agregado', 'success');
         });
 
-        // Exportar/Importar
         document.getElementById('exportBtn').addEventListener('click', () => {
             const blob = new Blob([JSON.stringify(viajeData, null, 2)], { type: 'application/json' });
             const a = document.createElement('a');
