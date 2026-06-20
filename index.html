@@ -129,7 +129,7 @@
         <div class="left">
             <button class="btn btn-primary" id="backupBtn">☁️ Respaldar</button>
             <button class="btn btn-outline" id="syncBtn">🔄 Sincronizar</button>
-            <button class="btn btn-telegram" id="openChatBtn">💬 Abrir chat</button>
+            <button class="btn btn-telegram" id="openChatBtn">💬 Abrir chat con Pantala</button>
             <button class="btn btn-warning" id="addDayBtn">➕ Agregar Día</button>
         </div>
     </div>
@@ -153,10 +153,10 @@
 
 <script>
     // ================================================================
-    // 1. CONFIGURACIÓN DE TELEGRAM
+    // 1. CONFIGURACIÓN DE TELEGRAM (ACTUALIZADA)
     // ================================================================
     const TELEGRAM_CONFIG = {
-        token: '8639326122:AAE6lDLn3Ld5j1otSKY9S_AG6QJH892IVrg',
+        token: '8940532221:AAHuOF9pQpgYUMWWaU_PTrfeyeOr7T7BXfc',
         chatId: '1957804648',
         username: 'Pantala_bot'
     };
@@ -285,7 +285,7 @@
     }
 
     // ================================================================
-    // 4. RENDERIZADO (igual que antes, no lo repito por espacio)
+    // 4. RENDERIZADO (mismo que antes)
     // ================================================================
     function render() {
         document.getElementById('mainTitle').textContent = viajeData.titulo || '⚽ Gira Mundialista';
@@ -566,18 +566,15 @@
     // ================================================================
     // 5. FUNCIONES DE TELEGRAM CON PROXY CORS
     // ================================================================
-    // Proxy CORS público (puedes cambiarlo si deja de funcionar)
     const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
 
     async function telegramFetch(url, options = {}) {
-        // Intenta directamente, si falla usa proxy
         try {
             const response = await fetch(url, options);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             return await response.json();
         } catch (error) {
             console.warn('Direct fetch failed, trying CORS proxy...', error);
-            // Usar proxy para GET (para POST con archivos no es posible)
             if (options.method !== 'POST' || !options.body) {
                 const proxyUrl = CORS_PROXY + encodeURIComponent(url);
                 const proxyResponse = await fetch(proxyUrl);
@@ -589,7 +586,7 @@
                     throw new Error('Proxy response not JSON');
                 }
             } else {
-                throw error; // POST no se puede hacer con este proxy
+                throw error;
             }
         }
     }
@@ -606,7 +603,6 @@
             formData.append('document', file);
             formData.append('caption', '📂 Respaldo del planificador de viaje');
 
-            // Intentar directamente (sin proxy) porque es POST multipart
             const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendDocument`, {
                 method: 'POST',
                 body: formData
@@ -616,7 +612,6 @@
             showToast('☁️ Respaldo guardado en Telegram.', 'success');
         } catch (error) {
             showToast(`❌ Error al respaldar: ${error.message}`, 'error');
-            // Si falla, sugerir exportar manualmente
             showToast('💡 Usa "Exportar JSON" para guardar localmente.', 'info');
         }
     }
@@ -625,13 +620,11 @@
         try {
             showToast('⏳ Buscando archivo JSON...', 'info');
 
-            // Intentar con proxy para GET
             const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`;
             const data = await telegramFetch(url);
 
             if (!data.ok) throw new Error(data.description || 'Error al obtener actualizaciones');
 
-            // Buscar el último documento JSON enviado por el usuario
             let lastDoc = null;
             for (let i = (data.result || []).length - 1; i >= 0; i--) {
                 const msg = data.result[i].message;
@@ -648,14 +641,12 @@
                 return;
             }
 
-            // Obtener la ruta del archivo
             const fileUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`;
             const fileData = await telegramFetch(fileUrl);
             if (!fileData.ok) throw new Error('No se pudo obtener la información del archivo');
 
             const downloadUrl = `https://api.telegram.org/file/bot${TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
 
-            // Descargar el archivo (usando proxy)
             const jsonText = await fetch(CORS_PROXY + encodeURIComponent(downloadUrl)).then(r => r.text());
             const imported = JSON.parse(jsonText);
 
@@ -699,19 +690,16 @@
         }
         render();
 
-        // Edición global
         document.getElementById('mainTitle').addEventListener('dblclick', () => makeGlobalEditable('mainTitle', 'titulo'));
         document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
         document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
 
-        // Botones Telegram
         document.getElementById('backupBtn').addEventListener('click', backupToTelegram);
         document.getElementById('syncBtn').addEventListener('click', importFromTelegram);
         document.getElementById('openChatBtn').addEventListener('click', () => {
             window.open(`https://t.me/${TELEGRAM_CONFIG.username}`, '_blank');
         });
 
-        // Exportar/Importar local
         document.getElementById('exportBtn').addEventListener('click', () => {
             const blob = new Blob([JSON.stringify(viajeData, null, 2)], { type: 'application/json' });
             const a = document.createElement('a');
@@ -748,7 +736,6 @@
             e.target.value = '';
         });
 
-        // Agregar día
         document.getElementById('addDayBtn').addEventListener('click', () => {
             const newId = 'dia' + Date.now();
             const newDay = {
@@ -766,7 +753,6 @@
             showToast('📅 Nuevo día agregado', 'success');
         });
 
-        // Restablecer datos
         document.getElementById('resetBtn').addEventListener('click', () => {
             if (confirm('¿Restablecer a los datos originales? Se perderán los cambios.')) {
                 viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
