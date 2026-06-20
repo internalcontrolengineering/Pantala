@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    <title>🌴 Gira Mundialista - Planificador de Viaje</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Quicksand', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #f7f9fc 0%, #e6ecf5 100%);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .app {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 24px 28px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.10), 0 10px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 10px 0 20px;
+            border-bottom: 2px dashed rgba(0, 99, 65, 0.2);
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #006341, #008a5e, #f9a825);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 99, 65, 0.15);
+        }
+        .header .sub {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            background: rgba(255, 255, 255, 0.6);
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+            margin-top: 4px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            font-weight: 600;
+        }
+        .header .fechas {
+            font-size: 0.9rem;
+            color: #5d6d7e;
+            margin-top: 6px;
+            background: rgba(255, 255, 255, 0.5);
+            display: inline-block;
+            padding: 4px 18px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== BARRA DE ACCIONES ===== */
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(6px);
+            padding: 12px 18px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .actions .left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .btn {
+            border: none;
+            padding: 10px 22px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #1e293b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: #006341;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 99, 65, 0.25);
+        }
+        .btn-primary:hover {
+            background: #004b31;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 99, 65, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #006341;
+            color: #006341;
+        }
+        .btn-outline:hover {
+            background: #00634110;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #eef2f6;
+            color: #1e293b;
+        }
+        .btn-secondary:hover {
+            background: #dce2ea;
+            transform: translateY(-2px);
+        }
+        .btn-warning {
+            background: #f9a825;
+            color: #1e293b;
+            box-shadow: 0 6px 16px rgba(249, 168, 37, 0.25);
+        }
+        .btn-warning:hover {
+            background: #f57f17;
+            color: white;
+            transform: translateY(-3px);
+        }
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.8rem;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 6px;
+            margin: 20px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        .tabs::-webkit-scrollbar {
+            height: 4px;
+            background: transparent;
+        }
+        .tabs::-webkit-scrollbar-thumb {
+            background: #00634140;
+            border-radius: 10px;
+        }
+        .tab-btn {
+            flex: 0 0 auto;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(4px);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #4a5a6a;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.9);
+            color: #0f172a;
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            background: #006341;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 99, 65, 0.30);
+            border-color: #006341;
+        }
+        .tab-btn .day-number {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border-radius: 30px;
+            padding: 0 8px;
+            margin-right: 4px;
+            font-size: 0.7rem;
+        }
+
+        /* ===== CONTENIDO DEL DÍA ===== */
+        .day-content {
+            display: none;
+            animation: fadeUp 0.35s ease forwards;
+        }
+        .day-content.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f2b3a;
+            margin-bottom: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .day-title:hover {
+            color: #006341;
+        }
+        .day-title .badge {
+            font-size: 0.8rem;
+            background: #f1f5f9;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #475569;
+        }
+        .day-sub {
+            color: #5d6d7e;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            padding-left: 4px;
+            border-left: 4px solid #f9a825;
+            padding-left: 12px;
+        }
+
+        /* ===== TABLA CON ANCHOS FIJOS ===== */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 24px;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(4px);
+            padding: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            margin-bottom: 16px;
+        }
+        .day-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            min-width: 780px; /* para que no se comprima en escritorio */
+            table-layout: fixed;
+        }
+        .day-table th {
+            background: rgba(0, 99, 65, 0.08);
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 14px 8px;
+            text-align: left;
+            border-bottom: 2px solid rgba(0, 99, 65, 0.1);
+            /* anchos fijos */
+            width: auto;
+        }
+        .day-table th:nth-child(1) { width: 110px; } /* Día */
+        .day-table th:nth-child(2) { width: 100px; } /* Horario */
+        .day-table th:nth-child(3) { width: 140px; } /* Actividad */
+        .day-table th:nth-child(4) { width: 200px; } /* Detalles */
+        .day-table th:nth-child(5) { width: 90px; }  /* Costo */
+        .day-table th:nth-child(6) { width: 150px; } /* Notas */
+        .day-table th:nth-child(7) { width: 50px; }  /* Botón */
+
+        .day-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            vertical-align: top;
+            background: transparent;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .day-table td:nth-child(4),
+        .day-table td:nth-child(6) {
+            white-space: pre-wrap;   /* respeta saltos de línea */
+            word-break: break-word;
+        }
+        .day-table tr:last-child td {
+            border-bottom: none;
+        }
+        .day-table .day-label {
+            font-weight: 700;
+            color: #0f2b3a;
+            background: rgba(249, 168, 37, 0.08);
+            border-right: 2px solid rgba(0,0,0,0.04);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .day-table .editable-cell {
+            cursor: text;
+            transition: background 0.15s;
+            position: relative;
+            border-radius: 8px;
+            padding: 6px 8px;
+            min-height: 36px;
+        }
+        .day-table .editable-cell:hover {
+            background: rgba(0, 99, 65, 0.06);
+        }
+        .day-table .editable-cell.editing {
+            background: #fff8e7;
+            padding: 4px 6px;
+            box-shadow: 0 0 0 2px #f9a825;
+            border-radius: 10px;
+        }
+        .day-table .editable-cell input,
+        .day-table .editable-cell textarea {
+            width: 100%;
+            border: 2px solid #006341;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            background: white;
+            outline: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: 0.2s;
+        }
+        .day-table .editable-cell textarea {
+            min-height: 70px;
+            resize: vertical;
+            white-space: pre-wrap;
+        }
+        .day-table .editable-cell input:focus,
+        .day-table .editable-cell textarea:focus {
+            border-color: #f9a825;
+            box-shadow: 0 0 0 3px rgba(249, 168, 37, 0.2);
+        }
+        .day-table .btn-delete {
+            background: rgba(206, 17, 38, 0.06);
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            padding: 6px 10px;
+            border-radius: 30px;
+            line-height: 1;
+        }
+        .day-table .btn-delete:hover {
+            background: #ce1126;
+            color: white;
+            transform: scale(1.1);
+        }
+        .day-table .cost-prefix {
+            color: #006341;
+            font-weight: 600;
+            margin-right: 2px;
+        }
+
+        /* ===== BOTÓN AGREGAR FILA ===== */
+        .add-row-btn {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(4px);
+            border: 2px dashed #9aa9b9;
+            border-radius: 60px;
+            padding: 12px 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .add-row-btn:hover {
+            border-color: #006341;
+            background: rgba(0, 99, 65, 0.06);
+            color: #006341;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 99, 65, 0.08);
+        }
+
+        /* ===== FOOTER ACTIONS ===== */
+        .footer-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed rgba(0,0,0,0.06);
+            justify-content: flex-end;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast {
+            background: #1e293b;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 60px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+            font-weight: 600;
+            animation: slideUp 0.3s ease forwards;
+            backdrop-filter: blur(8px);
+            background: rgba(30, 41, 59, 0.9);
+            pointer-events: auto;
+        }
+        .toast.success { background: rgba(0, 99, 65, 0.9); }
+        .toast.error { background: rgba(206, 17, 38, 0.9); }
+        .toast.info { background: rgba(30, 58, 138, 0.9); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            .app { padding: 16px; border-radius: 32px; }
+            .header h1 { font-size: 2rem; }
+            .header .sub { font-size: 0.9rem; padding: 4px 14px; }
+            .actions { flex-direction: column; align-items: stretch; border-radius: 30px; padding: 12px; gap: 8px; }
+            .actions .left { justify-content: center; }
+            .btn { font-size: 0.8rem; padding: 8px 16px; justify-content: center; }
+            .day-title { font-size: 1.4rem; }
+            .day-table { font-size: 0.8rem; min-width: 650px; }
+            .day-table th, .day-table td { padding: 8px 6px; }
+            .day-table .editable-cell { min-height: 28px; }
+            .day-table .editable-cell input,
+            .day-table .editable-cell textarea { font-size: 0.8rem; padding: 6px 8px; }
+            .tab-btn { padding: 8px 14px; font-size: 0.75rem; }
+            .add-row-btn { font-size: 0.85rem; padding: 10px 18px; }
+            .footer-actions { justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .app { padding: 12px; border-radius: 24px; }
+            .header h1 { font-size: 1.6rem; }
+            .day-table { min-width: 550px; }
+            .day-table .day-label { min-width: 70px; }
+        }
+    </style>
+</head>
+<body>
+<div class="app" id="app">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>⚽ Gira Mundialista</h1>
+        <div class="sub">PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec</div>
+        <div class="fechas">21 – 28 de Junio, 2026</div>
+    </div>
+
+    <!-- BARRA DE ACCIONES -->
+    <div class="actions">
+        <div class="left">
+            <button class="btn btn-primary" id="exportBtn">📥 Exportar JSON</button>
+            <button class="btn btn-outline" id="importBtn">📤 Importar JSON</button>
+            <input type="file" id="importFileInput" accept=".json" style="display:none;">
+        </div>
+        <div>
+            <button class="btn btn-warning" id="addDayBtn">➕ Agregar Día</button>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs" id="tabsContainer"></div>
+
+    <!-- CONTENEDOR DE DÍAS -->
+    <div id="daysContainer"></div>
+
+    <!-- FOOTER -->
+    <div class="footer-actions">
+        <button class="btn btn-secondary" id="resetBtn">🔄 Restablecer datos</button>
+    </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    // ================================================================
+    // 1. DATOS POR DEFECTO (estructura completa)
+    // ================================================================
+    const DEFAULT_DATA = {
+        titulo: "Gira Mundialista (PUEBLA - CDMX)",
+        dias: [
+            {
+                id: "domingo21",
+                nombre: "DOMINGO 21 DE JUNIO",
+                subtitulo: "ARRIBO A ZACATLÁN",
+                actividades: [
+                    { horario: "Mañana", actividad: "Traslado MID a CDMX", detalles: "Salida 6:01 am y arribo 8:00 am (Aeromexico Terminal 2)", costo: "3252", notas: "Light (Solo Mochila)" },
+                    { horario: "Mañana", actividad: "Traslado de Aeropuerto (T2) a TAPO", detalles: "Salida 8:00 am arribo a las 9:00 am (Uber)", costo: "200", notas: "Uber" },
+                    { horario: "Mañana", actividad: "Traslado de TAPO a Terminal Zacatlan", detalles: "Salida de 9:30 am a 12:30 pm (ATAH)", costo: "708", notas: "Autobús (ATAH)" },
+                    { horario: "Tarde", actividad: "Llegada a Zacatlán (Check-in)", detalles: "AirB&B", costo: "2368", notas: "3 Noches: https://www.airbnb.mx/rooms/1433023532441976725" },
+                    { horario: "Tarde", actividad: "Estadía en Zacatlán de las Manzanas", detalles: "Parroquia, Callejón del Hueso, Museo del Reloj, Mirador de Cristal, Mercadito, Café, Museo del Vino, Letras, Helados, Corredor Artesanal", costo: "", notas: "Recorrido libre" }
+                ]
+            },
+            {
+                id: "lunes22",
+                nombre: "LUNES 22 DE JUNIO",
+                subtitulo: "VITROMURALES Y CASCADAS",
+                actividades: [
+                    { horario: "07:00 am", actividad: "Mirador de Cristal Principal", detalles: "Visita temprano para evitar aglomeraciones.", costo: "", notas: "Fotos sin gente" },
+                    { horario: "09:00 am", actividad: "Desayuno en el Mercadito", detalles: "Gastronomía local.", costo: "", notas: "" },
+                    { horario: "Resto del día", actividad: "Paseo por el Centro", detalles: "Callejón del Hueso (Vitromurales), Corredor Artesanal, Estatua de Pedro Escobedo.", costo: "", notas: "" },
+                    { horario: "Resto del día", actividad: "Cascadas de Quetzalapan y Tulimán", detalles: "Aventura: puente colgante y senderismo.", costo: "", notas: "" },
+                    { horario: "Noche", actividad: "Tour Iluminado Nocturno", detalles: "Nuevo mirador Brizas", costo: "400", notas: "Experiencia nocturna" }
+                ]
+            },
+            {
+                id: "martes23",
+                nombre: "MARTES 23 DE JUNIO",
+                subtitulo: "NATURALEZA Y SABORES",
+                actividades: [
+                    { horario: "Mañana", actividad: "Recorrido en Matliwaca", detalles: "Ruta de los duendes, Hadas, Trols, Manantial y Mirador de la mano.", costo: "", notas: "" },
+                    { horario: "Tarde", actividad: "Degustación de Café y Museo del Vino", detalles: "Regreso al centro para actividades gastronómicas.", costo: "", notas: "" },
+                    { horario: "Tarde", actividad: "Tarde libre", detalles: "Espacio para descansar y pasear.", costo: "", notas: "" }
+                ]
+            },
+            {
+                id: "miercoles24",
+                nombre: "MIÉRCOLES 24 DE JUNIO",
+                subtitulo: "ZACATLÁN ➔ CDMX (TURISMO OBLIGATORIO)",
+                actividades: [
+                    { horario: "Mañana", actividad: "Traslado Zacatlan a TAPO", detalles: "Salida de 6:45 am a 9:45 pm (ATAH)", costo: "708", notas: "Autobús (ATAH)" },
+                    { horario: "10:00 a. m.", actividad: "Llegada a CDMX", detalles: "Check-in 3:00 pm", costo: "1980", notas: "Hotel Roble: https://share.google/Clnff1pqh7gj6yxmW" },
+                    { horario: "Tarde / Noche", actividad: "Tiempo Libre en CDMX", detalles: "Visita al Zócalo para ver México vs Republica Checa", costo: "", notas: "Fiesta del fútbol" }
+                ]
+            },
+            {
+                id: "jueves25",
+                nombre: "JUEVES 25 DE JUNIO",
+                subtitulo: "CDMX ➔ CUETZALAN (CULTURA Y TRADICIÓN)",
+                actividades: [
+                    { horario: "09:00 am", actividad: "Salida de CDMX hacia Cuetzalan", detalles: "Tiempo estimado: ~4.5 horas.", costo: "", notas: "" },
+                    { horario: "13:30 pm", actividad: "Llegada a Cuetzalan y Almuerzo", detalles: "Instalación y comida típica.", costo: "", notas: "" },
+                    { horario: "Tarde", actividad: "Recorrido por el Centro y Tianguis", detalles: "Parroquia San Francisco, Iglesia de los Jarritos, Panteón de Guadalupe, Voladores.", costo: "", notas: "" }
+                ]
+            },
+            {
+                id: "viernes26",
+                nombre: "VIERNES 26 DE JUNIO",
+                subtitulo: "BOSQUE DE BAMBÚ Y TARDE EN TLATLAUQUITEPEC",
+                actividades: [
+                    { horario: "09:00 am", actividad: "Visita al Bosque de Bambú", detalles: "Exploración de la Cueva Chivostoc.", costo: "", notas: "" },
+                    { horario: "12:00 pm", actividad: "Salida hacia Tlatlauquitepec", detalles: "Traslado ~1h 50min.", costo: "", notas: "" },
+                    { horario: "14:00 pm", actividad: "Llegada y Centro Histórico", detalles: "Ex-convento Franciscano, Parroquia de la Asunción, Letras del pueblo.", costo: "", notas: "" },
+                    { horario: "Noche", actividad: "Cena en el Mercadito", detalles: "Degustación nocturna local.", costo: "", notas: "" }
+                ]
+            },
+            {
+                id: "sabado27",
+                nombre: "SÁBADO 27 DE JUNIO",
+                subtitulo: "AVENTURA Y NOCHE MÁGICA EN LA PRESA",
+                actividades: [
+                    { horario: "08:00 am", actividad: "Casa del Artesano", detalles: "Compras de recuerdos.", costo: "", notas: "" },
+                    { horario: "09:30 am", actividad: "Traslado al Cerro Cabezón", detalles: "Aventura en el Puente Tibetano.", costo: "", notas: "" },
+                    { horario: "13:00 pm", actividad: "Cascada de Puxtla", detalles: "Visita a la cascada y cueva oculta.", costo: "", notas: "" },
+                    { horario: "16:00 pm", actividad: "Presa de la Soledad (Check-in)", detalles: "Llegada a la cabaña, atardecer.", costo: "", notas: "" },
+                    { horario: "20:30 hrs", actividad: "Tour de Avistamiento de Luciérnagas", detalles: "Paseo en lancha nocturno. Noche en cabañas.", costo: "", notas: "Evento Principal" }
+                ]
+            },
+            {
+                id: "domingo28",
+                nombre: "DOMINGO 28 DE JUNIO",
+                subtitulo: "REGRESO SEGURO",
+                actividades: [
+                    { horario: "Mañana", actividad: "Desayuno con vista a la presa", detalles: "Momento de relajación.", costo: "", notas: "" },
+                    { horario: "Mañana", actividad: "Emprender viaje de retorno", detalles: "Regreso a casa seguro y descansado.", costo: "", notas: "" }
+                ]
+            }
+        ]
+    };
+
+    // ================================================================
+    // 2. ESTADO
+    // ================================================================
+    let viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    let currentDayId = null;
+
+    // ================================================================
+    // 3. PERSISTENCIA LOCAL
+    // ================================================================
+    function loadFromStorage() {
+        const stored = localStorage.getItem('viajeData');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (parsed.dias) { viajeData = parsed; return true; }
+            } catch (e) {}
+        }
+        return false;
+    }
+    function saveToStorage() {
+        localStorage.setItem('viajeData', JSON.stringify(viajeData));
+    }
+
+    // ================================================================
+    // 4. RENDERIZADO PRINCIPAL
+    // ================================================================
+    function render() {
+        const tabsContainer = document.getElementById('tabsContainer');
+        const daysContainer = document.getElementById('daysContainer');
+        tabsContainer.innerHTML = '';
+        daysContainer.innerHTML = '';
+
+        viajeData.dias.forEach((dia, index) => {
+            // TAB
+            const tabBtn = document.createElement('button');
+            tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+            const num = index + 1;
+            tabBtn.innerHTML = `<span class="day-number">${num}</span> ${dia.nombre.split(' ').slice(0,2).join(' ')}`;
+            tabBtn.dataset.dayId = dia.id;
+            tabBtn.addEventListener('click', () => openTab(dia.id));
+            tabsContainer.appendChild(tabBtn);
+
+            // CONTENIDO
+            const contentDiv = document.createElement('div');
+            contentDiv.className = `day-content ${index === 0 ? 'active' : ''}`;
+            contentDiv.id = `content-${dia.id}`;
+
+            // Título editable
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'day-title';
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = dia.nombre;
+            titleSpan.addEventListener('dblclick', () => editDayTitle(dia.id, 'nombre'));
+            const subSpan = document.createElement('span');
+            subSpan.className = 'badge';
+            subSpan.textContent = dia.subtitulo || '';
+            subSpan.addEventListener('dblclick', () => editDayTitle(dia.id, 'subtitulo'));
+            titleDiv.appendChild(titleSpan);
+            titleDiv.appendChild(subSpan);
+            contentDiv.appendChild(titleDiv);
+
+            // Subtítulo (opcional)
+            if (dia.subtitulo) {
+                const subP = document.createElement('div');
+                subP.className = 'day-sub';
+                subP.textContent = dia.subtitulo;
+                contentDiv.appendChild(subP);
+            }
+
+            // Tabla
+            const wrap = document.createElement('div');
+            wrap.className = 'table-wrap';
+            const table = document.createElement('table');
+            table.className = 'day-table';
+            table.dataset.dayId = dia.id;
+
+            // Cabecera
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th>Día y Fecha</th>
+                    <th>Horario</th>
+                    <th>Actividad</th>
+                    <th>Detalles</th>
+                    <th>Costo</th>
+                    <th>Notas</th>
+                    <th style="width:50px;"></th>
+                </tr>
+            `;
+            table.appendChild(thead);
+
+            // Cuerpo
+            const tbody = document.createElement('tbody');
+            dia.actividades.forEach((act, idx) => {
+                const row = document.createElement('tr');
+                row.dataset.index = idx;
+
+                // Día (columna fija)
+                const tdDay = document.createElement('td');
+                tdDay.className = 'day-label';
+                tdDay.textContent = dia.nombre;
+                row.appendChild(tdDay);
+
+                // Campos editables
+                const fields = ['horario', 'actividad', 'detalles', 'costo', 'notas'];
+                fields.forEach(field => {
+                    const td = document.createElement('td');
+                    td.className = 'editable-cell';
+                    td.dataset.field = field;
+                    if (field === 'costo') {
+                        // Mostrar con formato pesos, si no hay valor o es 0 mostrar $0
+                        const val = act[field] || '0';
+                        const num = parseFloat(val) || 0;
+                        td.textContent = `$${num.toLocaleString('es-MX')}`;
+                    } else {
+                        td.textContent = act[field] || '';
+                        // Para detalles y notas, preservar saltos de línea
+                        if (field === 'detalles' || field === 'notas') {
+                            td.style.whiteSpace = 'pre-wrap';
+                        }
+                    }
+                    td.addEventListener('dblclick', () => makeEditable(td, dia.id, idx, field));
+                    row.appendChild(td);
+                });
+
+                // Botón eliminar
+                const tdDel = document.createElement('td');
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn-delete';
+                delBtn.innerHTML = '✕';
+                delBtn.title = 'Eliminar actividad';
+                delBtn.addEventListener('click', () => {
+                    if (confirm('¿Eliminar esta actividad?')) {
+                        dia.actividades.splice(idx, 1);
+                        saveToStorage();
+                        render();
+                        openTab(dia.id);
+                        showToast('🗑️ Actividad eliminada', 'info');
+                    }
+                });
+                tdDel.appendChild(delBtn);
+                row.appendChild(tdDel);
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+            wrap.appendChild(table);
+            contentDiv.appendChild(wrap);
+
+            // Botón agregar actividad
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-row-btn';
+            addBtn.innerHTML = '➕ Agregar Actividad';
+            addBtn.addEventListener('click', () => {
+                dia.actividades.push({
+                    horario: 'Nuevo horario',
+                    actividad: 'Nueva actividad',
+                    detalles: 'Descripción',
+                    costo: '0',
+                    notas: ''
+                });
+                saveToStorage();
+                render();
+                openTab(dia.id);
+                showToast('✅ Actividad agregada', 'success');
+            });
+            contentDiv.appendChild(addBtn);
+
+            daysContainer.appendChild(contentDiv);
+        });
+
+        // Si no hay días, mostrar mensaje
+        if (viajeData.dias.length === 0) {
+            const empty = document.createElement('div');
+            empty.style.textAlign = 'center';
+            empty.style.padding = '40px 20px';
+            empty.innerHTML = `<p style="font-size:1.2rem; color:#5d6d7e;">No hay días aún. ¡Agrega uno!</p>`;
+            daysContainer.appendChild(empty);
+        }
+
+        // Asegurar que el tab activo coincida
+        if (currentDayId) openTab(currentDayId);
+        else if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+    }
+
+    // ================================================================
+    // 5. ABRIR PESTAÑA
+    // ================================================================
+    function openTab(id) {
+        currentDayId = id;
+        document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        const content = document.getElementById(`content-${id}`);
+        if (content) content.classList.add('active');
+        const tab = document.querySelector(`.tab-btn[data-day-id="${id}"]`);
+        if (tab) tab.classList.add('active');
+    }
+
+    // ================================================================
+    // 6. EDICIÓN DE TÍTULO DEL DÍA
+    // ================================================================
+    function editDayTitle(dayId, field) {
+        const dia = viajeData.dias.find(d => d.id === dayId);
+        if (!dia) return;
+        const current = dia[field] || '';
+        const newVal = prompt(`Editar ${field}:`, current);
+        if (newVal !== null) {
+            dia[field] = newVal.trim();
+            saveToStorage();
+            render();
+            openTab(dayId);
+            showToast('📝 Título actualizado', 'success');
+        }
+    }
+
+    // ================================================================
+    // 7. EDICIÓN INLINE (DOBLE CLIC)
+    // ================================================================
+    function makeEditable(td, dayId, index, field) {
+        if (td.classList.contains('editing')) return;
+        const dia = viajeData.dias.find(d => d.id === dayId);
+        if (!dia) return;
+        const act = dia.actividades[index];
+        if (!act) return;
+
+        let currentValue = act[field] || '';
+        // Si es costo, extraemos solo el número sin formato
+        if (field === 'costo') {
+            const num = parseFloat(currentValue) || 0;
+            currentValue = String(num);
+        }
+
+        const isTextarea = (field === 'detalles' || field === 'notas');
+        const input = document.createElement(isTextarea ? 'textarea' : 'input');
+        input.value = currentValue;
+        if (field === 'costo') {
+            input.type = 'number';
+            input.step = '0.01';
+            input.min = '0';
+            input.placeholder = '0.00';
+        } else if (!isTextarea) {
+            input.type = 'text';
+        }
+        // Para textarea, ajustar altura
+        if (isTextarea) {
+            input.style.minHeight = '60px';
+            input.style.resize = 'vertical';
+        }
+
+        td.classList.add('editing');
+        td.textContent = '';
+        td.appendChild(input);
+        input.focus();
+        input.select();
+
+        function saveEdit() {
+            let newValue = input.value.trim();
+            if (field === 'costo') {
+                // Solo números y punto decimal
+                newValue = newValue.replace(/[^0-9.]/g, '');
+                const num = parseFloat(newValue);
+                if (!isNaN(num) && num >= 0) {
+                    act[field] = String(num);
+                } else {
+                    act[field] = '0';
+                }
+            } else {
+                act[field] = newValue;
+            }
+            saveToStorage();
+            render();
+            openTab(dayId);
+            td.classList.remove('editing');
+        }
+
+        input.addEventListener('blur', saveEdit);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !isTextarea) {
+                e.preventDefault();
+                input.blur();
+            }
+            if (e.key === 'Escape') {
+                // Restaurar valor original
+                if (field === 'costo') {
+                    const num = parseFloat(act[field]) || 0;
+                    input.value = String(num);
+                } else {
+                    input.value = act[field] || '';
+                }
+                input.blur();
+            }
+        });
+    }
+
+    // ================================================================
+    // 8. TOAST
+    // ================================================================
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(30px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    // ================================================================
+    // 9. EVENTOS Y ARRANQUE
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        // Cargar datos
+        if (!loadFromStorage()) {
+            viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            saveToStorage();
+        }
+        render();
+
+        // Exportar JSON
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(viajeData, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `itinerario_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            showToast('📥 Itinerario exportado', 'success');
+        });
+
+        // Importar JSON
+        document.getElementById('importBtn').addEventListener('click', () => {
+            document.getElementById('importFileInput').click();
+        });
+        document.getElementById('importFileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                try {
+                    const imported = JSON.parse(evt.target.result);
+                    if (imported.dias) {
+                        viajeData = imported;
+                        saveToStorage();
+                        render();
+                        if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+                        showToast('📤 Datos importados correctamente', 'success');
+                    } else {
+                        showToast('❌ Formato inválido', 'error');
+                    }
+                } catch (err) {
+                    showToast('❌ Error al leer el archivo', 'error');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        });
+
+        // Agregar día
+        document.getElementById('addDayBtn').addEventListener('click', () => {
+            const newId = 'dia' + Date.now();
+            const newDay = {
+                id: newId,
+                nombre: `DÍA ${viajeData.dias.length + 1}`,
+                subtitulo: 'Subtítulo',
+                actividades: [
+                    { horario: 'Mañana', actividad: 'Ejemplo', detalles: 'Descripción', costo: '0', notas: '' }
+                ]
+            };
+            viajeData.dias.push(newDay);
+            saveToStorage();
+            render();
+            openTab(newId);
+            showToast('📅 Nuevo día agregado', 'success');
+        });
+
+        // Restablecer datos
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('¿Restablecer a los datos originales? Se perderán los cambios.')) {
+                viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                saveToStorage();
+                render();
+                if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+                showToast('🔄 Datos restablecidos', 'info');
+            }
+        });
+    });
+</script>
+</body>
+</html>
