@@ -18,7 +18,6 @@
         .header .sub:hover { background: rgba(255,255,255,0.95); transform: translateY(-2px); }
         .header .fechas { position: relative; font-size: 0.95rem; font-weight: 600; color: #2c3e50; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); display: inline-block; padding: 6px 20px; border-radius: 40px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.6); cursor: pointer; transition: 0.2s; }
         .header .fechas:hover { background: rgba(255,255,255,0.9); transform: translateY(-2px); }
-
         .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.5); backdrop-filter: blur(6px); padding: 12px 18px; border-radius: 60px; border: 1px solid rgba(255,255,255,0.8); }
         .actions .left { display: flex; flex-wrap: wrap; gap: 8px; }
         .btn { border: none; padding: 10px 22px; border-radius: 60px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 8px; background: white; color: #1e293b; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid transparent; }
@@ -35,7 +34,6 @@
         .btn-sm { padding: 6px 16px; font-size: 0.8rem; }
         .btn-telegram { background: #0088cc; color: white; }
         .btn-telegram:hover { background: #006699; transform: translateY(-3px); }
-
         .tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 20px 0 16px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.05); -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
         .tabs::-webkit-scrollbar { height: 4px; background: transparent; }
         .tabs::-webkit-scrollbar-thumb { background: #00634140; border-radius: 10px; }
@@ -43,18 +41,15 @@
         .tab-btn:hover { background: rgba(255,255,255,0.9); color: #0f172a; transform: translateY(-2px); }
         .tab-btn.active { background: #006341; color: white; box-shadow: 0 8px 20px rgba(0,99,65,0.30); border-color: #006341; }
         .tab-btn .day-number { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 30px; padding: 0 8px; margin-right: 4px; font-size: 0.7rem; }
-
         .day-content { display: none; animation: fadeUp 0.35s ease forwards; }
         .day-content.active { display: block; }
         @keyframes fadeUp { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: translateY(0); } }
-
         .day-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
         .day-title { font-size: 1.8rem; font-weight: 700; color: #0f2b3a; cursor: pointer; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .day-title:hover { color: #006341; }
         .day-title .badge { font-size: 0.8rem; background: #f1f5f9; padding: 4px 16px; border-radius: 30px; font-weight: 600; color: #475569; }
         .day-actions { display: flex; gap: 8px; }
         .day-sub { color: #5d6d7e; font-size: 1rem; margin-bottom: 20px; padding-left: 4px; border-left: 4px solid #f9a825; padding-left: 12px; }
-
         .table-wrap { overflow-x: auto; border-radius: 24px; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px); padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 16px; }
         .day-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 680px; table-layout: fixed; }
         .day-table th { background: rgba(0,99,65,0.08); color: #1e293b; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.6px; padding: 14px 8px; text-align: left; border-bottom: 2px solid rgba(0,99,65,0.1); }
@@ -75,19 +70,15 @@
         .day-table .editable-cell input:focus, .day-table .editable-cell textarea:focus { border-color: #f9a825; box-shadow: 0 0 0 3px rgba(249,168,37,0.2); }
         .day-table .btn-delete { background: rgba(206,17,38,0.06); border: none; color: #94a3b8; cursor: pointer; font-size: 1.2rem; transition: 0.2s; padding: 6px 10px; border-radius: 30px; line-height: 1; }
         .day-table .btn-delete:hover { background: #ce1126; color: white; transform: scale(1.1); }
-
         .add-row-btn { background: rgba(255,255,255,0.6); backdrop-filter: blur(4px); border: 2px dashed #9aa9b9; border-radius: 60px; padding: 12px 24px; font-weight: 700; color: #2c3e50; cursor: pointer; transition: all 0.25s; display: inline-flex; align-items: center; gap: 10px; font-size: 0.95rem; margin-bottom: 20px; }
         .add-row-btn:hover { border-color: #006341; background: rgba(0,99,65,0.06); color: #006341; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,99,65,0.08); }
-
         .footer-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.06); justify-content: flex-end; }
-
         .toast-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 9999; pointer-events: none; }
         .toast { background: #1e293b; color: white; padding: 16px 28px; border-radius: 60px; box-shadow: 0 16px 40px rgba(0,0,0,0.15); font-weight: 600; animation: slideUp 0.3s ease forwards; backdrop-filter: blur(8px); background: rgba(30,41,59,0.9); pointer-events: auto; }
         .toast.success { background: rgba(0,99,65,0.9); }
         .toast.error { background: rgba(206,17,38,0.9); }
         .toast.info { background: rgba(30,58,138,0.9); }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
         @media (max-width: 700px) {
             .app { padding: 16px; border-radius: 32px; }
             .header h1 { font-size: 2.2rem; }
@@ -112,33 +103,79 @@
             .header h1 { font-size: 1.8rem; }
             .day-table { min-width: 480px; }
         }
+
+        /* Modal para mostrar JSON manualmente */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            padding: 24px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e9edf2;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+        .modal textarea {
+            width: 100%;
+            min-height: 200px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            resize: vertical;
+        }
+        .modal .btn { margin-top: 12px; }
     </style>
 </head>
 <body>
 <div class="app" id="app">
 
-    <!-- HEADER -->
     <div class="header">
         <h1 id="mainTitle">⚽ Gira Mundialista</h1>
         <div class="sub" id="mainSub">PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec</div>
         <div class="fechas" id="mainFechas">21 – 28 de Junio, 2026</div>
     </div>
 
-    <!-- ACCIONES -->
     <div class="actions">
         <div class="left">
             <button class="btn btn-primary" id="backupBtn">☁️ Respaldar</button>
             <button class="btn btn-outline" id="syncBtn">🔄 Sincronizar</button>
-            <button class="btn btn-telegram" id="openChatBtn">💬 Abrir chat con Pantala</button>
+            <button class="btn btn-telegram" id="openChatBtn">💬 Abrir chat</button>
             <button class="btn btn-warning" id="addDayBtn">➕ Agregar Día</button>
         </div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs" id="tabsContainer"></div>
     <div id="daysContainer"></div>
 
-    <!-- FOOTER -->
     <div class="footer-actions">
         <button class="btn btn-secondary" id="exportBtn">📥 Exportar JSON</button>
         <button class="btn btn-outline" id="importBtn">📤 Importar JSON</button>
@@ -148,12 +185,24 @@
 
 </div>
 
-<!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal para pegar JSON manualmente -->
+<div class="modal-overlay" id="jsonModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>📋 Pegar contenido del JSON</h3>
+            <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        <p style="color:#5d6d7e; margin-bottom:12px;">Copia el contenido del archivo JSON que recibiste en el chat y pégalo aquí:</p>
+        <textarea id="manualJsonInput" placeholder="Pega el JSON aquí..."></textarea>
+        <button class="btn btn-primary" id="applyManualJson">✅ Aplicar JSON</button>
+    </div>
+</div>
 
 <script>
     // ================================================================
-    // 1. CONFIGURACIÓN DE TELEGRAM (ACTUALIZADA)
+    // CONFIGURACIÓN DE TELEGRAM
     // ================================================================
     const TELEGRAM_CONFIG = {
         token: '8940532221:AAHuOF9pQpgYUMWWaU_PTrfeyeOr7T7BXfc',
@@ -162,7 +211,7 @@
     };
 
     // ================================================================
-    // 2. DATOS POR DEFECTO (COMPLETOS)
+    // DATOS POR DEFECTO (COMPLETOS)
     // ================================================================
     const DEFAULT_DATA = {
         titulo: "⚽ Gira Mundialista",
@@ -259,9 +308,9 @@
     };
 
     // ================================================================
-    // 3. ESTADO Y PERSISTENCIA
+    // ESTADO Y PERSISTENCIA
     // ================================================================
-    let viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    let viajeData = null;
     let currentDayId = null;
 
     function loadFromStorage() {
@@ -269,25 +318,38 @@
         if (stored) {
             try {
                 const parsed = JSON.parse(stored);
-                if (parsed.dias) {
+                if (parsed && parsed.dias && parsed.dias.length > 0) {
                     if (!parsed.titulo) parsed.titulo = DEFAULT_DATA.titulo;
                     if (!parsed.subtitulo) parsed.subtitulo = DEFAULT_DATA.subtitulo;
                     if (!parsed.fechas) parsed.fechas = DEFAULT_DATA.fechas;
                     viajeData = parsed;
                     return true;
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.warn('Error al cargar datos del storage:', e);
+            }
         }
         return false;
     }
+
     function saveToStorage() {
-        localStorage.setItem('viajeData', JSON.stringify(viajeData));
+        if (viajeData) {
+            localStorage.setItem('viajeData', JSON.stringify(viajeData));
+        }
     }
 
     // ================================================================
-    // 4. RENDERIZADO (mismo que antes)
+    // RENDERIZADO (completo, igual que antes)
     // ================================================================
     function render() {
+        console.log('🔄 Renderizando...', viajeData);
+
+        if (!viajeData || !viajeData.dias || viajeData.dias.length === 0) {
+            console.warn('⚠️ No hay datos para renderizar. Cargando datos por defecto...');
+            viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            saveToStorage();
+        }
+
         document.getElementById('mainTitle').textContent = viajeData.titulo || '⚽ Gira Mundialista';
         document.getElementById('mainSub').textContent = viajeData.subtitulo || 'PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec';
         document.getElementById('mainFechas').textContent = viajeData.fechas || '21 – 28 de Junio, 2026';
@@ -375,7 +437,7 @@
             table.appendChild(thead);
 
             const tbody = document.createElement('tbody');
-            dia.actividades.forEach((act, idx) => {
+            (dia.actividades || []).forEach((act, idx) => {
                 const row = document.createElement('tr');
                 row.dataset.index = idx;
 
@@ -564,33 +626,134 @@
     }
 
     // ================================================================
-    // 5. FUNCIONES DE TELEGRAM CON PROXY CORS
+    // FUNCIONES DE TELEGRAM CON MÚLTIPLES PROXIES Y FALLBACK MANUAL
     // ================================================================
-    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+    const PROXIES = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://api.codetabs.com/v1/proxy?quest='
+    ];
 
-    async function telegramFetch(url, options = {}) {
+    async function fetchWithProxy(url) {
+        // Primero intentamos directamente (puede fallar por CORS)
         try {
-            const response = await fetch(url, options);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return await response.json();
-        } catch (error) {
-            console.warn('Direct fetch failed, trying CORS proxy...', error);
-            if (options.method !== 'POST' || !options.body) {
-                const proxyUrl = CORS_PROXY + encodeURIComponent(url);
-                const proxyResponse = await fetch(proxyUrl);
-                if (!proxyResponse.ok) throw new Error(`Proxy HTTP ${proxyResponse.status}`);
-                const text = await proxyResponse.text();
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    throw new Error('Proxy response not JSON');
+            const response = await fetch(url);
+            if (response.ok) return await response.text();
+        } catch (e) { /* falla silenciosamente */ }
+
+        // Si falla, probamos con cada proxy
+        for (const proxy of PROXIES) {
+            try {
+                const proxyUrl = proxy + encodeURIComponent(url);
+                const response = await fetch(proxyUrl);
+                if (response.ok) {
+                    const text = await response.text();
+                    // Verificar si es JSON válido (al menos empieza con { o [)
+                    if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+                        return text;
+                    }
                 }
-            } else {
-                throw error;
+            } catch (e) {
+                console.warn(`Proxy ${proxy} falló:`, e);
             }
+        }
+        throw new Error('No se pudo descargar el archivo con ningún proxy.');
+    }
+
+    async function importFromTelegram() {
+        try {
+            showToast('⏳ Buscando archivo JSON...', 'info');
+
+            // Obtener actualizaciones
+            const updatesUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`;
+            const updatesText = await fetchWithProxy(updatesUrl);
+            const data = JSON.parse(updatesText);
+
+            if (!data.ok) throw new Error(data.description || 'Error al obtener actualizaciones');
+
+            // Buscar el último archivo JSON enviado por el usuario
+            let lastDoc = null;
+            for (let i = (data.result || []).length - 1; i >= 0; i--) {
+                const msg = data.result[i].message;
+                if (msg && msg.document && msg.document.file_name && msg.document.file_name.endsWith('.json')) {
+                    if (!msg.from.is_bot) {
+                        lastDoc = msg.document;
+                        break;
+                    }
+                }
+            }
+
+            if (!lastDoc) {
+                showToast('❌ No hay archivos .json en el chat. Envía uno primero.', 'error');
+                return;
+            }
+
+            // Obtener la ruta del archivo
+            const fileUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`;
+            const fileText = await fetchWithProxy(fileUrl);
+            const fileData = JSON.parse(fileText);
+            if (!fileData.ok) throw new Error('No se pudo obtener la información del archivo');
+
+            const downloadUrl = `https://api.telegram.org/file/bot${TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
+
+            // Descargar el contenido del archivo (JSON)
+            const jsonText = await fetchWithProxy(downloadUrl);
+            const imported = JSON.parse(jsonText);
+
+            if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
+
+            // Aplicar los datos
+            viajeData = imported;
+            saveToStorage();
+            render();
+            if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+            showToast('🔄 Datos sincronizados correctamente.', 'success');
+        } catch (error) {
+            console.error('Error en sincronización:', error);
+            showToast(`❌ Error al sincronizar: ${error.message}`, 'error');
+            // Mostrar modal para pegar manualmente
+            document.getElementById('jsonModal').classList.add('open');
+            showToast('💡 Puedes pegar el contenido del JSON manualmente en la ventana que apareció.', 'info');
         }
     }
 
+    // Aplicar JSON pegado manualmente
+    document.getElementById('applyManualJson').addEventListener('click', function() {
+        const textarea = document.getElementById('manualJsonInput');
+        const jsonText = textarea.value.trim();
+        if (!jsonText) {
+            showToast('❌ El contenido no puede estar vacío.', 'error');
+            return;
+        }
+        try {
+            const imported = JSON.parse(jsonText);
+            if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
+            viajeData = imported;
+            saveToStorage();
+            render();
+            if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+            showToast('📥 Datos importados manualmente.', 'success');
+            document.getElementById('jsonModal').classList.remove('open');
+            textarea.value = '';
+        } catch (error) {
+            showToast(`❌ Error: ${error.message}`, 'error');
+        }
+    });
+
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('jsonModal').classList.remove('open');
+    });
+
+    // Cerrar modal al hacer clic fuera
+    document.getElementById('jsonModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('open');
+        }
+    });
+
+    // ================================================================
+    // RESPALDAR (sin cambios, ya funcionaba)
+    // ================================================================
     async function backupToTelegram() {
         try {
             showToast('⏳ Subiendo respaldo...', 'info');
@@ -616,56 +779,8 @@
         }
     }
 
-    async function importFromTelegram() {
-        try {
-            showToast('⏳ Buscando archivo JSON...', 'info');
-
-            const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`;
-            const data = await telegramFetch(url);
-
-            if (!data.ok) throw new Error(data.description || 'Error al obtener actualizaciones');
-
-            let lastDoc = null;
-            for (let i = (data.result || []).length - 1; i >= 0; i--) {
-                const msg = data.result[i].message;
-                if (msg && msg.document && msg.document.file_name && msg.document.file_name.endsWith('.json')) {
-                    if (!msg.from.is_bot) {
-                        lastDoc = msg.document;
-                        break;
-                    }
-                }
-            }
-
-            if (!lastDoc) {
-                showToast('❌ No hay archivos .json en el chat. Envía uno primero.', 'error');
-                return;
-            }
-
-            const fileUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`;
-            const fileData = await telegramFetch(fileUrl);
-            if (!fileData.ok) throw new Error('No se pudo obtener la información del archivo');
-
-            const downloadUrl = `https://api.telegram.org/file/bot${TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
-
-            const jsonText = await fetch(CORS_PROXY + encodeURIComponent(downloadUrl)).then(r => r.text());
-            const imported = JSON.parse(jsonText);
-
-            if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
-
-            viajeData = imported;
-            saveToStorage();
-            render();
-            if (viajeData.dias.length) openTab(viajeData.dias[0].id);
-            showToast('🔄 Datos sincronizados correctamente.', 'success');
-        } catch (error) {
-            console.error('Error en sincronización:', error);
-            showToast(`❌ Error al sincronizar: ${error.message}`, 'error');
-            showToast('💡 Puedes descargar el archivo manualmente desde el chat y usar "Importar JSON".', 'info');
-        }
-    }
-
     // ================================================================
-    // 6. TOAST
+    // TOAST
     // ================================================================
     function showToast(message, type = 'info') {
         const container = document.getElementById('toastContainer');
@@ -681,15 +796,22 @@
     }
 
     // ================================================================
-    // 7. INICIALIZACIÓN
+    // INICIALIZACIÓN
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Inicializando app...');
+
         if (!loadFromStorage()) {
+            console.log('📂 No hay datos guardados, usando datos por defecto.');
             viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             saveToStorage();
+        } else {
+            console.log('✅ Datos cargados desde localStorage:', viajeData.dias.length, 'días');
         }
+
         render();
 
+        // Eventos
         document.getElementById('mainTitle').addEventListener('dblclick', () => makeGlobalEditable('mainTitle', 'titulo'));
         document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
         document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
@@ -762,6 +884,8 @@
                 showToast('🔄 Datos restablecidos', 'info');
             }
         });
+
+        console.log('✅ App inicializada correctamente.');
     });
 </script>
 </body>
