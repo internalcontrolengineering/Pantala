@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>🌎 Pantala - Planificador de Viaje</title>
+    <title>🌴 Gira Mundialista - Planificador de Viaje</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         * {
@@ -519,14 +519,14 @@
 <body>
 <div class="app" id="app">
 
-    <!-- HEADER (editable) -->
+    <!-- HEADER -->
     <div class="header">
         <h1 id="mainTitle">⚽ Gira Mundialista</h1>
         <div class="sub" id="mainSub">PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec</div>
         <div class="fechas" id="mainFechas">21 – 28 de Junio, 2026</div>
     </div>
 
-    <!-- BARRA DE ACCIONES -->
+    <!-- ACCIONES -->
     <div class="actions">
         <div class="left">
             <button class="btn btn-primary" id="backupBtn">☁️ Respaldar en Telegram</button>
@@ -538,8 +538,6 @@
 
     <!-- TABS -->
     <div class="tabs" id="tabsContainer"></div>
-
-    <!-- CONTENEDOR DE DÍAS -->
     <div id="daysContainer"></div>
 
     <!-- FOOTER -->
@@ -555,42 +553,18 @@
 <!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ========================================================== -->
-<!-- CARGAR CONFIGURACIÓN DESDE ARCHIVO EXTERNO (GENERADO POR GITHUB ACTIONS) -->
-<!-- ========================================================== -->
-<script>
-    // Esta función se llama desde config.js (si existe)
-    function setTelegramConfig(config) {
-        window.TELEGRAM_CONFIG = config;
-        console.log('✅ Configuración de Telegram cargada.');
-        initApp();
-    }
-
-    // Si config.js no se carga, mostrar advertencia
-    setTimeout(() => {
-        if (!window.TELEGRAM_CONFIG) {
-            console.warn('⚠️ No se encontró config.js. Las funciones de Telegram no estarán disponibles.');
-            const container = document.getElementById('toastContainer');
-            const msg = document.createElement('div');
-            msg.className = 'toast error';
-            msg.textContent = '⚠️ Configuración de Telegram no cargada. Los respaldos no funcionarán.';
-            container.appendChild(msg);
-            setTimeout(() => msg.remove(), 5000);
-            // Deshabilitar botones de Telegram
-            document.getElementById('backupBtn').disabled = true;
-            document.getElementById('importFromTelegramBtn').disabled = true;
-            // Inicializar app de todas formas (sin Telegram)
-            initApp();
-        }
-    }, 1500);
-</script>
-
-<!-- ========================================================== -->
-<!-- TU CÓDIGO PRINCIPAL -->
-<!-- ========================================================== -->
 <script>
     // ================================================================
-    // 1. DATOS POR DEFECTO (COMPLETOS)
+    // 1. CONFIGURACIÓN DE TELEGRAM (NUEVO TOKEN ACTUALIZADO)
+    // ================================================================
+    const TELEGRAM_CONFIG = {
+        token: '8639326122:AAE6lDLn3Ld5j1otSKY9S_AG6QJH892IVrg',  // ← NUEVO TOKEN
+        chatId: '1957804648',
+        username: 'Pantala_bot'
+    };
+
+    // ================================================================
+    // 2. DATOS POR DEFECTO (COMPLETOS)
     // ================================================================
     const DEFAULT_DATA = {
         titulo: "⚽ Gira Mundialista",
@@ -687,13 +661,13 @@
     };
 
     // ================================================================
-    // 2. ESTADO
+    // 3. ESTADO
     // ================================================================
     let viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
     let currentDayId = null;
 
     // ================================================================
-    // 3. PERSISTENCIA LOCAL
+    // 4. PERSISTENCIA LOCAL
     // ================================================================
     function loadFromStorage() {
         const stored = localStorage.getItem('viajeData');
@@ -716,7 +690,7 @@
     }
 
     // ================================================================
-    // 4. RENDERIZADO PRINCIPAL
+    // 5. RENDERIZADO PRINCIPAL
     // ================================================================
     function render() {
         document.getElementById('mainTitle').textContent = viajeData.titulo || '⚽ Gira Mundialista';
@@ -729,7 +703,6 @@
         daysContainer.innerHTML = '';
 
         viajeData.dias.forEach((dia, index) => {
-            // TAB
             const tabBtn = document.createElement('button');
             tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
             const num = index + 1;
@@ -738,7 +711,6 @@
             tabBtn.addEventListener('click', () => openTab(dia.id));
             tabsContainer.appendChild(tabBtn);
 
-            // CONTENIDO
             const contentDiv = document.createElement('div');
             contentDiv.className = `day-content ${index === 0 ? 'active' : ''}`;
             contentDiv.id = `content-${dia.id}`;
@@ -887,7 +859,7 @@
     }
 
     // ================================================================
-    // 5. ABRIR PESTAÑA
+    // 6. ABRIR PESTAÑA
     // ================================================================
     function openTab(id) {
         currentDayId = id;
@@ -902,7 +874,7 @@
     }
 
     // ================================================================
-    // 6. EDICIÓN DE TÍTULO DEL DÍA
+    // 7. EDICIÓN DE TÍTULO DEL DÍA
     // ================================================================
     function editDayTitle(dayId, field) {
         const dia = viajeData.dias.find(d => d.id === dayId);
@@ -919,7 +891,7 @@
     }
 
     // ================================================================
-    // 7. EDICIÓN INLINE
+    // 8. EDICIÓN INLINE
     // ================================================================
     function makeEditable(td, dayId, index, field) {
         if (td.classList.contains('editing')) return;
@@ -994,7 +966,7 @@
     }
 
     // ================================================================
-    // 8. EDICIÓN GLOBAL
+    // 9. EDICIÓN GLOBAL
     // ================================================================
     function makeGlobalEditable(elementId, field) {
         const el = document.getElementById(elementId);
@@ -1009,24 +981,20 @@
     }
 
     // ================================================================
-    // 9. FUNCIONES DE TELEGRAM (usando window.TELEGRAM_CONFIG)
+    // 10. FUNCIONES DE TELEGRAM (con el token actualizado)
     // ================================================================
     async function backupToTelegram() {
-        if (!window.TELEGRAM_CONFIG) {
-            showToast('❌ Configuración de Telegram no disponible.', 'error');
-            return;
-        }
         try {
             const jsonString = JSON.stringify(viajeData, null, 2);
             const blob = new Blob([jsonString], { type: 'application/json' });
             const file = new File([blob], `itinerario_${new Date().toISOString().slice(0,10)}.json`, { type: 'application/json' });
 
             const formData = new FormData();
-            formData.append('chat_id', window.TELEGRAM_CONFIG.chatId);
+            formData.append('chat_id', TELEGRAM_CONFIG.chatId);
             formData.append('document', file);
             formData.append('caption', '📂 Respaldo del planificador de viaje');
 
-            const response = await fetch(`https://api.telegram.org/bot${window.TELEGRAM_CONFIG.token}/sendDocument`, {
+            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/sendDocument`, {
                 method: 'POST',
                 body: formData
             });
@@ -1039,13 +1007,9 @@
     }
 
     async function importFromTelegram() {
-        if (!window.TELEGRAM_CONFIG) {
-            showToast('❌ Configuración de Telegram no disponible.', 'error');
-            return;
-        }
         try {
             showToast('⏳ Buscando archivo JSON en Telegram...', 'info');
-            const updatesRes = await fetch(`https://api.telegram.org/bot${window.TELEGRAM_CONFIG.token}/getUpdates`);
+            const updatesRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`);
             const updatesData = await updatesRes.json();
             if (!updatesData.ok) throw new Error('No se pudo obtener mensajes del bot');
 
@@ -1064,11 +1028,11 @@
                 return;
             }
 
-            const fileRes = await fetch(`https://api.telegram.org/bot${window.TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`);
+            const fileRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`);
             const fileData = await fileRes.json();
             if (!fileData.ok) throw new Error('No se pudo obtener el archivo');
 
-            const downloadUrl = `https://api.telegram.org/file/bot${window.TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
+            const downloadUrl = `https://api.telegram.org/file/bot${TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
             const jsonRes = await fetch(downloadUrl);
             const imported = await jsonRes.json();
             if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
@@ -1084,7 +1048,7 @@
     }
 
     // ================================================================
-    // 10. TOAST
+    // 11. TOAST
     // ================================================================
     function showToast(message, type = 'info') {
         const container = document.getElementById('toastContainer');
@@ -1100,13 +1064,9 @@
     }
 
     // ================================================================
-    // 11. INICIALIZADOR DE LA APP
+    // 12. INICIALIZACIÓN
     // ================================================================
-    function initApp() {
-        // Si ya se inicializó, no repetir
-        if (window._appInitialized) return;
-        window._appInitialized = true;
-
+    document.addEventListener('DOMContentLoaded', function() {
         // Cargar datos
         if (!loadFromStorage()) {
             viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
@@ -1119,18 +1079,9 @@
         document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
         document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
 
-        // Botones de Telegram (se habilitan si hay config)
-        const backupBtn = document.getElementById('backupBtn');
-        const syncBtn = document.getElementById('importFromTelegramBtn');
-        if (window.TELEGRAM_CONFIG) {
-            backupBtn.disabled = false;
-            syncBtn.disabled = false;
-            backupBtn.addEventListener('click', backupToTelegram);
-            syncBtn.addEventListener('click', importFromTelegram);
-        } else {
-            backupBtn.disabled = true;
-            syncBtn.disabled = true;
-        }
+        // Botones de Telegram
+        document.getElementById('backupBtn').addEventListener('click', backupToTelegram);
+        document.getElementById('importFromTelegramBtn').addEventListener('click', importFromTelegram);
 
         // Exportar/Importar local
         document.getElementById('exportBtn').addEventListener('click', () => {
@@ -1197,26 +1148,7 @@
                 showToast('🔄 Datos restablecidos', 'info');
             }
         });
-    }
-
-    // ================================================================
-    // 12. AUTO-INICIO
-    // ================================================================
-    // Si TELEGRAM_CONFIG ya existe (porque config.js se cargó antes), iniciar
-    if (window.TELEGRAM_CONFIG) {
-        initApp();
-    } else {
-        // Si no, esperar a que config.js llame a setTelegramConfig (definido arriba)
-        console.log('⏳ Esperando configuración de Telegram...');
-        // Pero también asegurar que si no llega, igual se inicie la app (sin Telegram)
-        // El setTimeout en el bloque de carga de config.js llama a initApp() después de 1.5s
-    }
+    });
 </script>
-
-<!-- ========================================================== -->
-<!-- CARGAR CONFIG.JS (generado por GitHub Actions) -->
-<!-- ========================================================== -->
-<script src="config.js" onerror="console.warn('⚠️ No se pudo cargar config.js');"></script>
-
 </body>
 </html>
