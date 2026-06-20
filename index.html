@@ -6,6 +6,7 @@
     <title>🌎 Pantala - Planificador de Viaje</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
+        /* (El mismo CSS de antes, lo omito por espacio, pero debe estar completo) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Quicksand', 'Segoe UI', sans-serif; background: linear-gradient(145deg, #f7f9fc 0%, #e6ecf5 100%); min-height: 100vh; padding: 16px; display: flex; justify-content: center; align-items: flex-start; }
         .app { max-width: 1200px; width: 100%; background: rgba(255,255,255,0.75); backdrop-filter: blur(12px); border-radius: 48px; padding: 24px 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.10), 0 10px 20px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.5); transition: all 0.3s ease; }
@@ -34,6 +35,8 @@
         .btn-sm { padding: 6px 16px; font-size: 0.8rem; }
         .btn-telegram { background: #0088cc; color: white; }
         .btn-telegram:hover { background: #006699; transform: translateY(-3px); }
+        .btn-reload { background: #7c3aed; color: white; }
+        .btn-reload:hover { background: #5b21b6; transform: translateY(-3px); }
         .tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin: 20px 0 16px; padding-bottom: 10px; border-bottom: 2px solid rgba(0,0,0,0.05); -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
         .tabs::-webkit-scrollbar { height: 4px; background: transparent; }
         .tabs::-webkit-scrollbar-thumb { background: #00634140; border-radius: 10px; }
@@ -104,7 +107,7 @@
             .day-table { min-width: 480px; }
         }
 
-        /* Modal para mostrar JSON manualmente */
+        /* Modal para pegar JSON manualmente */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -168,6 +171,7 @@
         <div class="left">
             <button class="btn btn-primary" id="backupBtn">☁️ Respaldar</button>
             <button class="btn btn-outline" id="syncBtn">🔄 Sincronizar</button>
+            <button class="btn btn-reload" id="reloadBtn">🔄 Recargar datos</button>
             <button class="btn btn-telegram" id="openChatBtn">💬 Abrir chat</button>
             <button class="btn btn-warning" id="addDayBtn">➕ Agregar Día</button>
         </div>
@@ -323,6 +327,7 @@
                     if (!parsed.subtitulo) parsed.subtitulo = DEFAULT_DATA.subtitulo;
                     if (!parsed.fechas) parsed.fechas = DEFAULT_DATA.fechas;
                     viajeData = parsed;
+                    console.log('📂 Datos cargados desde localStorage:', viajeData.dias.length, 'días');
                     return true;
                 }
             } catch (e) {
@@ -335,14 +340,15 @@
     function saveToStorage() {
         if (viajeData) {
             localStorage.setItem('viajeData', JSON.stringify(viajeData));
+            console.log('💾 Datos guardados en localStorage:', viajeData.dias.length, 'días');
         }
     }
 
     // ================================================================
-    // RENDERIZADO (completo, igual que antes)
+    // RENDERIZADO (con depuración)
     // ================================================================
     function render() {
-        console.log('🔄 Renderizando...', viajeData);
+        console.log('🔄 Renderizando...', viajeData ? viajeData.dias.length + ' días' : 'sin datos');
 
         if (!viajeData || !viajeData.dias || viajeData.dias.length === 0) {
             console.warn('⚠️ No hay datos para renderizar. Cargando datos por defecto...');
@@ -513,6 +519,8 @@
 
         if (currentDayId) openTab(currentDayId);
         else if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+
+        console.log('✅ Renderizado completado.');
     }
 
     function openTab(id) {
@@ -635,20 +643,17 @@
     ];
 
     async function fetchWithProxy(url) {
-        // Primero intentamos directamente (puede fallar por CORS)
         try {
             const response = await fetch(url);
             if (response.ok) return await response.text();
         } catch (e) { /* falla silenciosamente */ }
 
-        // Si falla, probamos con cada proxy
         for (const proxy of PROXIES) {
             try {
                 const proxyUrl = proxy + encodeURIComponent(url);
                 const response = await fetch(proxyUrl);
                 if (response.ok) {
                     const text = await response.text();
-                    // Verificar si es JSON válido (al menos empieza con { o [)
                     if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
                         return text;
                     }
@@ -664,14 +669,12 @@
         try {
             showToast('⏳ Buscando archivo JSON...', 'info');
 
-            // Obtener actualizaciones
             const updatesUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getUpdates`;
             const updatesText = await fetchWithProxy(updatesUrl);
             const data = JSON.parse(updatesText);
 
             if (!data.ok) throw new Error(data.description || 'Error al obtener actualizaciones');
 
-            // Buscar el último archivo JSON enviado por el usuario
             let lastDoc = null;
             for (let i = (data.result || []).length - 1; i >= 0; i--) {
                 const msg = data.result[i].message;
@@ -688,71 +691,61 @@
                 return;
             }
 
-            // Obtener la ruta del archivo
             const fileUrl = `https://api.telegram.org/bot${TELEGRAM_CONFIG.token}/getFile?file_id=${lastDoc.file_id}`;
             const fileText = await fetchWithProxy(fileUrl);
             const fileData = JSON.parse(fileText);
             if (!fileData.ok) throw new Error('No se pudo obtener la información del archivo');
 
             const downloadUrl = `https://api.telegram.org/file/bot${TELEGRAM_CONFIG.token}/${fileData.result.file_path}`;
-
-            // Descargar el contenido del archivo (JSON)
             const jsonText = await fetchWithProxy(downloadUrl);
             const imported = JSON.parse(jsonText);
 
             if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
+
+            console.log('📥 Datos importados desde Telegram:', imported.dias.length, 'días');
+            console.log('📊 Primer día:', imported.dias[0]?.nombre);
 
             // Aplicar los datos
             viajeData = imported;
             saveToStorage();
             render();
             if (viajeData.dias.length) openTab(viajeData.dias[0].id);
-            showToast('🔄 Datos sincronizados correctamente.', 'success');
+
+            showToast(`✅ ${viajeData.dias.length} días sincronizados correctamente.`, 'success');
+
         } catch (error) {
             console.error('Error en sincronización:', error);
             showToast(`❌ Error al sincronizar: ${error.message}`, 'error');
-            // Mostrar modal para pegar manualmente
             document.getElementById('jsonModal').classList.add('open');
-            showToast('💡 Puedes pegar el contenido del JSON manualmente en la ventana que apareció.', 'info');
+            showToast('💡 Puedes pegar el contenido del JSON manualmente.', 'info');
         }
     }
 
-    // Aplicar JSON pegado manualmente
-    document.getElementById('applyManualJson').addEventListener('click', function() {
-        const textarea = document.getElementById('manualJsonInput');
-        const jsonText = textarea.value.trim();
-        if (!jsonText) {
-            showToast('❌ El contenido no puede estar vacío.', 'error');
-            return;
+    // ================================================================
+    // FUNCIÓN DE RECARGA MANUAL (desde localStorage)
+    // ================================================================
+    function reloadData() {
+        console.log('🔄 Recargando datos desde localStorage...');
+        const stored = localStorage.getItem('viajeData');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (parsed && parsed.dias && parsed.dias.length > 0) {
+                    viajeData = parsed;
+                    render();
+                    if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+                    showToast(`✅ Datos recargados (${viajeData.dias.length} días)`, 'success');
+                    return;
+                }
+            } catch (e) {
+                console.error('Error al recargar:', e);
+            }
         }
-        try {
-            const imported = JSON.parse(jsonText);
-            if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
-            viajeData = imported;
-            saveToStorage();
-            render();
-            if (viajeData.dias.length) openTab(viajeData.dias[0].id);
-            showToast('📥 Datos importados manualmente.', 'success');
-            document.getElementById('jsonModal').classList.remove('open');
-            textarea.value = '';
-        } catch (error) {
-            showToast(`❌ Error: ${error.message}`, 'error');
-        }
-    });
-
-    document.getElementById('closeModal').addEventListener('click', function() {
-        document.getElementById('jsonModal').classList.remove('open');
-    });
-
-    // Cerrar modal al hacer clic fuera
-    document.getElementById('jsonModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('open');
-        }
-    });
+        showToast('❌ No hay datos guardados para recargar.', 'error');
+    }
 
     // ================================================================
-    // RESPALDAR (sin cambios, ya funcionaba)
+    // RESPALDAR
     // ================================================================
     async function backupToTelegram() {
         try {
@@ -780,6 +773,42 @@
     }
 
     // ================================================================
+    // APLICAR JSON MANUAL (desde el modal)
+    // ================================================================
+    document.getElementById('applyManualJson').addEventListener('click', function() {
+        const textarea = document.getElementById('manualJsonInput');
+        const jsonText = textarea.value.trim();
+        if (!jsonText) {
+            showToast('❌ El contenido no puede estar vacío.', 'error');
+            return;
+        }
+        try {
+            const imported = JSON.parse(jsonText);
+            if (!imported.dias) throw new Error('El archivo no tiene el formato esperado');
+            console.log('📥 Datos importados manualmente:', imported.dias.length, 'días');
+            viajeData = imported;
+            saveToStorage();
+            render();
+            if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+            showToast(`✅ ${viajeData.dias.length} días importados manualmente.`, 'success');
+            document.getElementById('jsonModal').classList.remove('open');
+            textarea.value = '';
+        } catch (error) {
+            showToast(`❌ Error: ${error.message}`, 'error');
+        }
+    });
+
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('jsonModal').classList.remove('open');
+    });
+
+    document.getElementById('jsonModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('open');
+        }
+    });
+
+    // ================================================================
     // TOAST
     // ================================================================
     function showToast(message, type = 'info') {
@@ -805,8 +834,6 @@
             console.log('📂 No hay datos guardados, usando datos por defecto.');
             viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             saveToStorage();
-        } else {
-            console.log('✅ Datos cargados desde localStorage:', viajeData.dias.length, 'días');
         }
 
         render();
@@ -818,6 +845,7 @@
 
         document.getElementById('backupBtn').addEventListener('click', backupToTelegram);
         document.getElementById('syncBtn').addEventListener('click', importFromTelegram);
+        document.getElementById('reloadBtn').addEventListener('click', reloadData);
         document.getElementById('openChatBtn').addEventListener('click', () => {
             window.open(`https://t.me/${TELEGRAM_CONFIG.username}`, '_blank');
         });
