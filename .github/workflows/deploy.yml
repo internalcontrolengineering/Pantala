@@ -1,0 +1,27 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create config.js from secrets
+        run: |
+          echo "// Archivo generado automáticamente" > config.js
+          echo "const TELEGRAM_CONFIG = {" >> config.js
+          echo "    token: '${{ secrets.TELEGRAM_TOKEN }}'," >> config.js
+          echo "    chatId: '${{ secrets.TELEGRAM_CHAT_ID }}'," >> config.js
+          echo "    username: '${{ secrets.TELEGRAM_USERNAME }}'" >> config.js
+          echo "};" >> config.js
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
