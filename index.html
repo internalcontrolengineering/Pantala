@@ -31,44 +31,99 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
         }
-        /* ===== HEADER ===== */
+        /* ===== HEADER con colores patrios ===== */
         .header {
             text-align: center;
-            padding: 10px 0 20px;
-            border-bottom: 2px dashed rgba(0, 99, 65, 0.2);
+            padding: 20px 10px 20px;
             margin-bottom: 24px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, rgba(0, 99, 65, 0.15), rgba(206, 17, 38, 0.10));
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        /* Fondo con bandera sutil */
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg,
+                rgba(0, 99, 65, 0.08) 0%,
+                rgba(0, 99, 65, 0.08) 33%,
+                rgba(255, 255, 255, 0.15) 33%,
+                rgba(255, 255, 255, 0.15) 66%,
+                rgba(206, 17, 38, 0.08) 66%,
+                rgba(206, 17, 38, 0.08) 100%);
+            pointer-events: none;
+            border-radius: 40px;
         }
         .header h1 {
-            font-size: 2.6rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #006341, #008a5e, #f9a825);
+            position: relative;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: inline-block;
+            background: linear-gradient(135deg, #006341 0%, #006341 30%, #ffffff 30%, #ffffff 60%, #ce1126 60%, #ce1126 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: inline-block;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(0, 99, 65, 0.15);
+            background-clip: text;
+            text-shadow: none;
+            /* Efecto de contorno para que el blanco resalte */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            padding: 0 8px;
+            cursor: pointer;
+        }
+        /* Para navegadores que no soportan clip, usamos un fallback con stroke */
+        @supports not (background-clip: text) {
+            .header h1 {
+                color: #006341;
+                text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            }
+        }
+        .header h1:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s;
         }
         .header .sub {
-            font-size: 1.1rem;
-            color: #2c3e50;
-            background: rgba(255, 255, 255, 0.6);
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 60px;
-            margin-top: 4px;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: relative;
+            font-size: 1.2rem;
             font-weight: 600;
+            color: #1e293b;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 60px;
+            margin-top: 8px;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header .sub:hover {
+            background: rgba(255,255,255,0.95);
+            transform: translateY(-2px);
         }
         .header .fechas {
-            font-size: 0.9rem;
-            color: #5d6d7e;
-            margin-top: 6px;
-            background: rgba(255, 255, 255, 0.5);
+            position: relative;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2c3e50;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
             display: inline-block;
-            padding: 4px 18px;
+            padding: 6px 20px;
             border-radius: 40px;
-            backdrop-filter: blur(2px);
+            margin-top: 8px;
+            border: 1px solid rgba(255,255,255,0.6);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header .fechas:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
         }
 
         /* ===== BARRA DE ACCIONES ===== */
@@ -141,6 +196,15 @@
         .btn-warning:hover {
             background: #f57f17;
             color: white;
+            transform: translateY(-3px);
+        }
+        .btn-danger {
+            background: #ce1126;
+            color: white;
+            box-shadow: 0 6px 16px rgba(206, 17, 38, 0.2);
+        }
+        .btn-danger:hover {
+            background: #a80d1d;
             transform: translateY(-3px);
         }
         .btn-sm {
@@ -216,11 +280,17 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
         .day-title {
             font-size: 1.8rem;
             font-weight: 700;
             color: #0f2b3a;
-            margin-bottom: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -238,6 +308,10 @@
             font-weight: 600;
             color: #475569;
         }
+        .day-actions {
+            display: flex;
+            gap: 8px;
+        }
         .day-sub {
             color: #5d6d7e;
             font-size: 1rem;
@@ -247,7 +321,7 @@
             padding-left: 12px;
         }
 
-        /* ===== TABLA CON ANCHOS FIJOS ===== */
+        /* ===== TABLA ===== */
         .table-wrap {
             overflow-x: auto;
             border-radius: 24px;
@@ -261,7 +335,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.92rem;
-            min-width: 780px; /* para que no se comprima en escritorio */
+            min-width: 680px;
             table-layout: fixed;
         }
         .day-table th {
@@ -274,16 +348,13 @@
             padding: 14px 8px;
             text-align: left;
             border-bottom: 2px solid rgba(0, 99, 65, 0.1);
-            /* anchos fijos */
-            width: auto;
         }
-        .day-table th:nth-child(1) { width: 110px; } /* Día */
-        .day-table th:nth-child(2) { width: 100px; } /* Horario */
-        .day-table th:nth-child(3) { width: 140px; } /* Actividad */
-        .day-table th:nth-child(4) { width: 200px; } /* Detalles */
-        .day-table th:nth-child(5) { width: 90px; }  /* Costo */
-        .day-table th:nth-child(6) { width: 150px; } /* Notas */
-        .day-table th:nth-child(7) { width: 50px; }  /* Botón */
+        .day-table th:nth-child(1) { width: 110px; }
+        .day-table th:nth-child(2) { width: 150px; }
+        .day-table th:nth-child(3) { width: 220px; }
+        .day-table th:nth-child(4) { width: 100px; }
+        .day-table th:nth-child(5) { width: 170px; }
+        .day-table th:nth-child(6) { width: 50px; }
 
         .day-table td {
             padding: 12px 8px;
@@ -293,22 +364,13 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
-        .day-table td:nth-child(4),
-        .day-table td:nth-child(6) {
-            white-space: pre-wrap;   /* respeta saltos de línea */
+        .day-table td:nth-child(3),
+        .day-table td:nth-child(5) {
+            white-space: pre-wrap;
             word-break: break-word;
         }
         .day-table tr:last-child td {
             border-bottom: none;
-        }
-        .day-table .day-label {
-            font-weight: 700;
-            color: #0f2b3a;
-            background: rgba(249, 168, 37, 0.08);
-            border-right: 2px solid rgba(0,0,0,0.04);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         .day-table .editable-cell {
             cursor: text;
@@ -365,11 +427,6 @@
             background: #ce1126;
             color: white;
             transform: scale(1.1);
-        }
-        .day-table .cost-prefix {
-            color: #006341;
-            font-weight: 600;
-            margin-right: 2px;
         }
 
         /* ===== BOTÓN AGREGAR FILA ===== */
@@ -442,13 +499,14 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 700px) {
             .app { padding: 16px; border-radius: 32px; }
-            .header h1 { font-size: 2rem; }
-            .header .sub { font-size: 0.9rem; padding: 4px 14px; }
+            .header h1 { font-size: 2.2rem; }
+            .header .sub { font-size: 1rem; padding: 6px 16px; }
+            .header .fechas { font-size: 0.85rem; }
             .actions { flex-direction: column; align-items: stretch; border-radius: 30px; padding: 12px; gap: 8px; }
             .actions .left { justify-content: center; }
             .btn { font-size: 0.8rem; padding: 8px 16px; justify-content: center; }
             .day-title { font-size: 1.4rem; }
-            .day-table { font-size: 0.8rem; min-width: 650px; }
+            .day-table { font-size: 0.8rem; min-width: 580px; }
             .day-table th, .day-table td { padding: 8px 6px; }
             .day-table .editable-cell { min-height: 28px; }
             .day-table .editable-cell input,
@@ -456,35 +514,32 @@
             .tab-btn { padding: 8px 14px; font-size: 0.75rem; }
             .add-row-btn { font-size: 0.85rem; padding: 10px 18px; }
             .footer-actions { justify-content: center; }
+            .day-header { flex-direction: column; align-items: stretch; gap: 8px; }
+            .day-actions { justify-content: flex-start; }
         }
         @media (max-width: 480px) {
             .app { padding: 12px; border-radius: 24px; }
-            .header h1 { font-size: 1.6rem; }
-            .day-table { min-width: 550px; }
-            .day-table .day-label { min-width: 70px; }
+            .header h1 { font-size: 1.8rem; }
+            .day-table { min-width: 480px; }
         }
     </style>
 </head>
 <body>
 <div class="app" id="app">
 
-    <!-- HEADER -->
+    <!-- HEADER (editable) con colores patrios -->
     <div class="header">
-        <h1>⚽ Gira Mundialista</h1>
-        <div class="sub">PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec</div>
-        <div class="fechas">21 – 28 de Junio, 2026</div>
+        <h1 id="mainTitle">⚽ Gira Mundialista</h1>
+        <div class="sub" id="mainSub">PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec</div>
+        <div class="fechas" id="mainFechas">21 – 28 de Junio, 2026</div>
     </div>
 
     <!-- BARRA DE ACCIONES -->
     <div class="actions">
         <div class="left">
-            <button class="btn btn-primary" id="exportBtn">📥 Exportar JSON</button>
-            <button class="btn btn-outline" id="importBtn">📤 Importar JSON</button>
-            <input type="file" id="importFileInput" accept=".json" style="display:none;">
-        </div>
-        <div>
             <button class="btn btn-warning" id="addDayBtn">➕ Agregar Día</button>
         </div>
+        <div></div>
     </div>
 
     <!-- TABS -->
@@ -495,7 +550,10 @@
 
     <!-- FOOTER -->
     <div class="footer-actions">
-        <button class="btn btn-secondary" id="resetBtn">🔄 Restablecer datos</button>
+        <button class="btn btn-secondary" id="exportBtn">📥 Exportar JSON</button>
+        <button class="btn btn-outline" id="importBtn">📤 Importar JSON</button>
+        <input type="file" id="importFileInput" accept=".json" style="display:none;">
+        <button class="btn btn-danger" id="resetBtn">🔄 Restablecer datos</button>
     </div>
 
 </div>
@@ -505,10 +563,12 @@
 
 <script>
     // ================================================================
-    // 1. DATOS POR DEFECTO (estructura completa)
+    // 1. DATOS POR DEFECTO
     // ================================================================
     const DEFAULT_DATA = {
-        titulo: "Gira Mundialista (PUEBLA - CDMX)",
+        titulo: "⚽ Gira Mundialista",
+        subtitulo: "PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec",
+        fechas: "21 – 28 de Junio, 2026",
         dias: [
             {
                 id: "domingo21",
@@ -613,7 +673,13 @@
         if (stored) {
             try {
                 const parsed = JSON.parse(stored);
-                if (parsed.dias) { viajeData = parsed; return true; }
+                if (parsed.dias) {
+                    if (!parsed.titulo) parsed.titulo = DEFAULT_DATA.titulo;
+                    if (!parsed.subtitulo) parsed.subtitulo = DEFAULT_DATA.subtitulo;
+                    if (!parsed.fechas) parsed.fechas = DEFAULT_DATA.fechas;
+                    viajeData = parsed;
+                    return true;
+                }
             } catch (e) {}
         }
         return false;
@@ -626,13 +692,16 @@
     // 4. RENDERIZADO PRINCIPAL
     // ================================================================
     function render() {
+        document.getElementById('mainTitle').textContent = viajeData.titulo || '⚽ Gira Mundialista';
+        document.getElementById('mainSub').textContent = viajeData.subtitulo || 'PUEBLA · CDMX · Zacatlán · Cuetzalan · Tlatlauquitepec';
+        document.getElementById('mainFechas').textContent = viajeData.fechas || '21 – 28 de Junio, 2026';
+
         const tabsContainer = document.getElementById('tabsContainer');
         const daysContainer = document.getElementById('daysContainer');
         tabsContainer.innerHTML = '';
         daysContainer.innerHTML = '';
 
         viajeData.dias.forEach((dia, index) => {
-            // TAB
             const tabBtn = document.createElement('button');
             tabBtn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
             const num = index + 1;
@@ -641,12 +710,13 @@
             tabBtn.addEventListener('click', () => openTab(dia.id));
             tabsContainer.appendChild(tabBtn);
 
-            // CONTENIDO
             const contentDiv = document.createElement('div');
             contentDiv.className = `day-content ${index === 0 ? 'active' : ''}`;
             contentDiv.id = `content-${dia.id}`;
 
-            // Título editable
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'day-header';
+
             const titleDiv = document.createElement('div');
             titleDiv.className = 'day-title';
             const titleSpan = document.createElement('span');
@@ -658,9 +728,30 @@
             subSpan.addEventListener('dblclick', () => editDayTitle(dia.id, 'subtitulo'));
             titleDiv.appendChild(titleSpan);
             titleDiv.appendChild(subSpan);
-            contentDiv.appendChild(titleDiv);
+            headerDiv.appendChild(titleDiv);
 
-            // Subtítulo (opcional)
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'day-actions';
+            const delDayBtn = document.createElement('button');
+            delDayBtn.className = 'btn btn-danger btn-sm';
+            delDayBtn.innerHTML = '🗑️ Eliminar día';
+            delDayBtn.addEventListener('click', () => {
+                if (confirm(`¿Eliminar el día "${dia.nombre}" y todas sus actividades?`)) {
+                    const idx = viajeData.dias.findIndex(d => d.id === dia.id);
+                    if (idx > -1) {
+                        viajeData.dias.splice(idx, 1);
+                        saveToStorage();
+                        render();
+                        if (viajeData.dias.length) openTab(viajeData.dias[0].id);
+                        else openTab(null);
+                        showToast('📅 Día eliminado', 'info');
+                    }
+                }
+            });
+            actionsDiv.appendChild(delDayBtn);
+            headerDiv.appendChild(actionsDiv);
+            contentDiv.appendChild(headerDiv);
+
             if (dia.subtitulo) {
                 const subP = document.createElement('div');
                 subP.className = 'day-sub';
@@ -668,18 +759,15 @@
                 contentDiv.appendChild(subP);
             }
 
-            // Tabla
             const wrap = document.createElement('div');
             wrap.className = 'table-wrap';
             const table = document.createElement('table');
             table.className = 'day-table';
             table.dataset.dayId = dia.id;
 
-            // Cabecera
             const thead = document.createElement('thead');
             thead.innerHTML = `
                 <tr>
-                    <th>Día y Fecha</th>
                     <th>Horario</th>
                     <th>Actividad</th>
                     <th>Detalles</th>
@@ -690,32 +778,22 @@
             `;
             table.appendChild(thead);
 
-            // Cuerpo
             const tbody = document.createElement('tbody');
             dia.actividades.forEach((act, idx) => {
                 const row = document.createElement('tr');
                 row.dataset.index = idx;
 
-                // Día (columna fija)
-                const tdDay = document.createElement('td');
-                tdDay.className = 'day-label';
-                tdDay.textContent = dia.nombre;
-                row.appendChild(tdDay);
-
-                // Campos editables
                 const fields = ['horario', 'actividad', 'detalles', 'costo', 'notas'];
                 fields.forEach(field => {
                     const td = document.createElement('td');
                     td.className = 'editable-cell';
                     td.dataset.field = field;
                     if (field === 'costo') {
-                        // Mostrar con formato pesos, si no hay valor o es 0 mostrar $0
                         const val = act[field] || '0';
                         const num = parseFloat(val) || 0;
                         td.textContent = `$${num.toLocaleString('es-MX')}`;
                     } else {
                         td.textContent = act[field] || '';
-                        // Para detalles y notas, preservar saltos de línea
                         if (field === 'detalles' || field === 'notas') {
                             td.style.whiteSpace = 'pre-wrap';
                         }
@@ -724,7 +802,6 @@
                     row.appendChild(td);
                 });
 
-                // Botón eliminar
                 const tdDel = document.createElement('td');
                 const delBtn = document.createElement('button');
                 delBtn.className = 'btn-delete';
@@ -747,7 +824,6 @@
             wrap.appendChild(table);
             contentDiv.appendChild(wrap);
 
-            // Botón agregar actividad
             const addBtn = document.createElement('button');
             addBtn.className = 'add-row-btn';
             addBtn.innerHTML = '➕ Agregar Actividad';
@@ -769,7 +845,6 @@
             daysContainer.appendChild(contentDiv);
         });
 
-        // Si no hay días, mostrar mensaje
         if (viajeData.dias.length === 0) {
             const empty = document.createElement('div');
             empty.style.textAlign = 'center';
@@ -778,7 +853,6 @@
             daysContainer.appendChild(empty);
         }
 
-        // Asegurar que el tab activo coincida
         if (currentDayId) openTab(currentDayId);
         else if (viajeData.dias.length) openTab(viajeData.dias[0].id);
     }
@@ -790,10 +864,12 @@
         currentDayId = id;
         document.querySelectorAll('.day-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-        const content = document.getElementById(`content-${id}`);
-        if (content) content.classList.add('active');
-        const tab = document.querySelector(`.tab-btn[data-day-id="${id}"]`);
-        if (tab) tab.classList.add('active');
+        if (id) {
+            const content = document.getElementById(`content-${id}`);
+            if (content) content.classList.add('active');
+            const tab = document.querySelector(`.tab-btn[data-day-id="${id}"]`);
+            if (tab) tab.classList.add('active');
+        }
     }
 
     // ================================================================
@@ -814,7 +890,7 @@
     }
 
     // ================================================================
-    // 7. EDICIÓN INLINE (DOBLE CLIC)
+    // 7. EDICIÓN INLINE
     // ================================================================
     function makeEditable(td, dayId, index, field) {
         if (td.classList.contains('editing')) return;
@@ -824,7 +900,6 @@
         if (!act) return;
 
         let currentValue = act[field] || '';
-        // Si es costo, extraemos solo el número sin formato
         if (field === 'costo') {
             const num = parseFloat(currentValue) || 0;
             currentValue = String(num);
@@ -841,7 +916,6 @@
         } else if (!isTextarea) {
             input.type = 'text';
         }
-        // Para textarea, ajustar altura
         if (isTextarea) {
             input.style.minHeight = '60px';
             input.style.resize = 'vertical';
@@ -856,7 +930,6 @@
         function saveEdit() {
             let newValue = input.value.trim();
             if (field === 'costo') {
-                // Solo números y punto decimal
                 newValue = newValue.replace(/[^0-9.]/g, '');
                 const num = parseFloat(newValue);
                 if (!isNaN(num) && num >= 0) {
@@ -880,7 +953,6 @@
                 input.blur();
             }
             if (e.key === 'Escape') {
-                // Restaurar valor original
                 if (field === 'costo') {
                     const num = parseFloat(act[field]) || 0;
                     input.value = String(num);
@@ -893,7 +965,22 @@
     }
 
     // ================================================================
-    // 8. TOAST
+    // 8. EDICIÓN GLOBAL
+    // ================================================================
+    function makeGlobalEditable(elementId, field) {
+        const el = document.getElementById(elementId);
+        const current = viajeData[field] || '';
+        const newVal = prompt(`Editar ${field}:`, current);
+        if (newVal !== null) {
+            viajeData[field] = newVal.trim();
+            saveToStorage();
+            render();
+            showToast('📝 Información actualizada', 'success');
+        }
+    }
+
+    // ================================================================
+    // 9. TOAST
     // ================================================================
     function showToast(message, type = 'info') {
         const container = document.getElementById('toastContainer');
@@ -909,17 +996,19 @@
     }
 
     // ================================================================
-    // 9. EVENTOS Y ARRANQUE
+    // 10. EVENTOS Y ARRANQUE
     // ================================================================
     document.addEventListener('DOMContentLoaded', () => {
-        // Cargar datos
         if (!loadFromStorage()) {
             viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             saveToStorage();
         }
         render();
 
-        // Exportar JSON
+        document.getElementById('mainTitle').addEventListener('dblclick', () => makeGlobalEditable('mainTitle', 'titulo'));
+        document.getElementById('mainSub').addEventListener('dblclick', () => makeGlobalEditable('mainSub', 'subtitulo'));
+        document.getElementById('mainFechas').addEventListener('dblclick', () => makeGlobalEditable('mainFechas', 'fechas'));
+
         document.getElementById('exportBtn').addEventListener('click', () => {
             const blob = new Blob([JSON.stringify(viajeData, null, 2)], { type: 'application/json' });
             const a = document.createElement('a');
@@ -929,7 +1018,6 @@
             showToast('📥 Itinerario exportado', 'success');
         });
 
-        // Importar JSON
         document.getElementById('importBtn').addEventListener('click', () => {
             document.getElementById('importFileInput').click();
         });
@@ -957,7 +1045,6 @@
             e.target.value = '';
         });
 
-        // Agregar día
         document.getElementById('addDayBtn').addEventListener('click', () => {
             const newId = 'dia' + Date.now();
             const newDay = {
@@ -975,7 +1062,6 @@
             showToast('📅 Nuevo día agregado', 'success');
         });
 
-        // Restablecer datos
         document.getElementById('resetBtn').addEventListener('click', () => {
             if (confirm('¿Restablecer a los datos originales? Se perderán los cambios.')) {
                 viajeData = JSON.parse(JSON.stringify(DEFAULT_DATA));
